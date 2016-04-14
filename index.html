@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head>
+	<meta charset="utf-8">
+	<link rel="icon" href="data:;base64,=">
+	<title>JS Racer</title>
+	<style type="text/css">
+		html,body{
+			margin: 0;
+			background-color: #CFA634;
+		}
+		#canvas{
+			position: absolute;
+		    top:0;
+		    bottom: 0;
+		    left: 0;
+		    right: 0;
+		    margin:auto;
+		    border: 2px solid black;
+		    background-color: white;
+		}
+		#chrono{
+		    color: black;
+		    font-size:1.5em;
+		    font-weight:bolder;
+		    text-align: center;
+		}
+		#manuel{
+		    color: black;
+		    font-size:1.5em;
+		    font-weight:bolder;
+		    text-align: center;
+		}
+	</style>
+	<script type="text/javascript" src="js/lib/ext/script_manager.js"></script>
+</head>
+<body>
+	
+	<div id="chrono" class="timer"></div>
+	<div id="manuel">  Z : Go forward     ---    S :  Go Backward   ---    Q/D : turning left / right </div>
+	<canvas id="canvas" width="1280" height="1024">
+	</canvas>
+	
+	<script type="text/javascript">
+	/* global Game, main */
+	if (typeof X === 'undefined') {
+		//* Création du namespace
+	    var X = {/*namespace du jeu*/};
+	    //* Passe le point d'entrée de l'application à la lib : Script Manager
+	    main('js/Game.js', function(){
+	    	//* Initialisation de paramètre
+	    	X.class.get(X.Node).showHotSpot = false;
+                X.class.get(X.Shape).drawBoudningBox = false;
+	    	
+	    	//* Lancement du jeu
+                new X.Game('canvas');
+                
+	    }, 10 * 1000);
+	}
+	</script>
+</body>
+</html>
