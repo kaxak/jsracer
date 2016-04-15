@@ -9,36 +9,40 @@ Description :
 
 include('js/Scene.js');
 
-/*
-*/
-X.SceneManager = function(){
-    /* Properties */
-    var _scene;
+X.SceneManager = function () {
     
-    /* Initialisation (contructor) */
+    var _ = X.class.propertiesGetter();
     
-    
-    /* Méthodes */
-    this.loadScene = function(scene){
-        _scene = X.new(X.Scene);
+    var X_object = function(protected) {
+        //* Initialise les propriétés
+        _(this, protected);
+        
+        /* Propriétés */
+        _(this, '-').scene;
+        
     };
     
-    this.update = function(ctx){
+    X_object.prototype.loadScene = function(scene){
+        _(this, '-').scene = X.new(X.Scene);
+    };
+    
+    X_object.prototype.update = function(ctx){
         //* Dessine le jeu
-        _scene.update();
+        _(this, '-').scene.update();
     };
     
-    this.render = function(ctx){
+    X_object.prototype.render = function(ctx){
         //* Efface l'écran
         ctx.clearRect(0, 0, X.Screen.width, X.Screen.height);
         
         //* Dessine le jeu
-        _scene.render(ctx);
+        _(this, '-').scene.render(ctx);
     };
     
     /* Accessors */
-    this.getScene = function(){
-        return _scene;
+    X_object.prototype.getScene = function(){
+        return _(this, '-').scene;
     };
     
+    return X.SceneManager = X_object;
 };

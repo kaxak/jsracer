@@ -7,7 +7,6 @@ Description :
 
 /* global include, X, SAT */
 
-include('js/lib/tool/Class.js');
 include('js/lib/tool/Screen.js');
 include('js/Node.js');
 include('js/Car.js');
@@ -15,9 +14,6 @@ include('js/Shape.js');
 include('js/Rect.js');
 include('js/Vector.js');
 include('js/lib/ext/sat/SAT.js');
-
-/*
-*/
 
 X.Scene = function () {
     
@@ -29,11 +25,7 @@ X.Scene = function () {
         //* Appel le super contructeur 
         X.Node.apply(this, [protected, new X.Vector(0, 0), 0, new X.Vector(1, 1)]);
         
-        this.addChild('circuittest', X.new(X.Shape, [
-            0, 0,
-            new X.Rect(new X.Vector(0, 0), X.Screen.width, X.Screen.height),
-            'assets/textures/circuit_test.png'
-        ]));
+        
         
         var controled_shape = this.addChild('controled_shape', X.new(X.Car,[
             X.Screen.width/2, X.Screen.height/2,

@@ -9,7 +9,6 @@ Vmax = sqrt((acceleration - friction moteur)8550. / friction air)
 
 /* global include, X, Howl */
 
-include('js/lib/tool/Class.js');
 include('js/Node.js');
 include('js/Shape.js');
 include('js/Vector.js');
@@ -45,12 +44,12 @@ X.Car = function () {
                 -10, -22,
                 new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
                 urlImageWheel
-        ])).onUpdate = wheelOnUpdate;
+        ])).onUpdate = _wheelOnUpdate;
         this.addChild('roueAVD', X.new(X.Shape, [
             10, -22,
             new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
             urlImageWheel
-        ])).onUpdate = wheelOnUpdate;
+        ])).onUpdate = _wheelOnUpdate;
         //* Roues Arrières
         this.addChild('roueARG', X.new(X.Shape, [
                 -10, 0,
@@ -80,7 +79,7 @@ X.Car = function () {
             
 
             if((X.Input.isKeyPress('d') && X.Input.isKeyPress('q')) || !(X.Input.isKeyPress('d') || X.Input.isKeyPress('q'))){
-                releaseDirection.apply(this);
+                _releaseDirection.apply(this);
                 
             }
             else{
@@ -131,11 +130,11 @@ X.Car = function () {
 //        this.onRender = function(ctx){};
     };
     
-    var wheelOnUpdate = function(){
+    var _wheelOnUpdate = function(){
         this.setOrientation(Math.PI/6 * (this.getParent().getDirection() / this.getParent().getDirectionMAX()));
     };
     
-    var releaseDirection = function(){
+    var _releaseDirection = function(){
         if(_(this, '-').direction > 1){
             _(this, '-').direction -= _(this, '-').directionMAX * X.Time.getDelta() * 10;
             if(_(this, '-').direction <= 1) _(this, '-').direction = 0;

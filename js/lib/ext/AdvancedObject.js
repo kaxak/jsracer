@@ -1,13 +1,13 @@
 /*
 Created : 13/04/16
-Authors : ROCHHE Emmanuel
+Authors : ROCHE Emmanuel
 Description : gère l'instanciation d'objet
 
 */
 
 /* global include, X */
 
-X.class = function(){
+AdvancedObject = function(){
     /**
      * Gère le stockage des propriétes protégés
      */
@@ -82,7 +82,7 @@ X.class = function(){
      * @returns {Object} L'objet créé.
      */
     this.new = function(pattern, args){
-        var _ctor = X.class.get(pattern);
+        var _ctor = AdvancedObject.get(pattern);
         var o = Object.create(_ctor.prototype);
         args = [_(o)].concat(args);
         _ctor.apply(o, args);
@@ -93,5 +93,4 @@ X.class = function(){
     
     return this;
 }();
-X.new = X.class.new;//* Alias pour créer un nouvel objet.
 

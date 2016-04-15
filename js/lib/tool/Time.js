@@ -12,7 +12,7 @@ Description :
 X.Time = function() {
     /* Properties */
     var _delta;
-    var _lastTime = +new Date();
+    var _lastTime = 0;
     var _start; 
     var _compteur;
     /* Méthodes */
@@ -27,10 +27,10 @@ X.Time = function() {
         return _lastTime;
     };
     
-    this.update = function() {
-        var now = +new Date();
-        _delta = (now - _lastTime)/1000;//en seconde
-        _lastTime = now;
+    this.update = function(timeStamp) {
+//        var now = +new Date();
+        _delta = (timeStamp - _lastTime)/1000;//en seconde
+        _lastTime = timeStamp;
         return _delta;
     };
     

@@ -9,10 +9,6 @@ Todo :
 
 /* global include, X */
 
-/* 
-
-*/
-include('js/lib/tool/Class.js');
 include('js/Vector.js');
 
 X.Node = function () {
@@ -148,9 +144,9 @@ X.Node = function () {
         var globalPosition = new X.Vector(node.getPosition().x,node.getPosition().y);
         var actualNode = node;
         
-        while(actualNode.getParent() != null){
-            actualNode = actualNode.getParent()
-            globalPosition = globalPosition.Add(new X.Vector(actualNode.getPosition().x,actualNode.getPosition().y));
+        while(actualNode.getParent() !== null){
+            actualNode = actualNode.getParent();
+            globalPosition = globalPosition.Add(actualNode.getPosition());
         }
         
         return globalPosition;
@@ -171,7 +167,7 @@ X.Node = function () {
         return _(this, '+').scale;
     };
     
-    X_object.prototype.showHotSpot;
+    X_object.showHotSpot = false;
  
     return X.Node = X_object;
 };

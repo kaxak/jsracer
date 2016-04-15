@@ -11,103 +11,103 @@ aide :
 */
 
 Math.PI2 = Math.PI * 2;
+Math.PIO2 = Math.PI / 2;
 
 /* global include, X */
 
 X.Vector = function(x,y){
-    var _this = this;
-    _this.x, _this.y;
-    
-    this.Add = function(vector){
-        return new X.Vector(_this.x + vector.x, _this.y + vector.y);
-    };
-    
-    this.Sub = function(vector){
-        return new X.Vector(vector.x - _this.x, vector.y - _this.y);
-    };
-    
-    this.Multiply = function(nombre){
-        return new X.Vector(_this.x * nombre, _this.y * nombre);
-    };
-    
-    this.Divide = function(nombre){
-        nombre = 1 / nombre;//inverse
-        return new X.Vector(_this.x * nombre, _this.y * nombre);
-    };
-    
-    this.Reverse = function(nombre){
-        return new X.Vector(-_this.x, -_this.y);
-    };
-    
-    this.Length = function(){
-        return Math.sqrt(_this.x * _this.x + _this.y * _this.y);
-    };
-    
-    this.Determinant = function(vector){
-        //Déterminant : d = D_x*T_y - D_y*T_x
-        return _this.x*vector.y - _this.y*vector.x;
-    };
-    
-    this.Scalar = function(vector){
-        //dot = (a.x * b.x) + (a.y * b.y)
-        return _this.x*vector.x + _this.y*vector.y;
-    };
-    
-    this.Normalize = function(){
-        //Normalize = Vector * 1/ Vector.Length
-        return _this.Multiply(1/_this.Length());
-    };
-    
-    this.Normale = function(){
-        return new X.Vector(_this.y, -_this.x);
-    };
-    
-    /*Experimental*/
-    this.render = function(ctx, xy, scale, color){
-        var x = 0, y = 0;
-        if(xy === 'x'){
-            x = _this.Length() * scale;
-        }
-        else if(xy === 'y'){
-            y = _this.Length() * scale;
-        }
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 0.5;
-//        ctx.fillStyle = 'rgba(255,255,0,1.0)';
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(x, y);
-        ctx.closePath();
-//        ctx.fill();
-        ctx.stroke();
-    };
-    
-    /*
-    Vecteur CalculerVecteurV2(Vecteur v,Vecteur N){
-        Vecteur v2;
-        float pscal = (v.x*N.x +  v.y*N.y);
-        v2.x = v.x -2*pscal*N.x;
-        v2.y = v.y -2*pscal*N.y;
-        return v2;
-    }
-    */
-    this.testRebond = function(normal){
-        var pscal = _this.Scalar(normal);
-        var r = new X.Vector();
-        r.x = _this.x-2*pscal*normal.x;
-        r.y = _this.y-2*pscal*normal.y;
-        return r;
-    };
-    
-    this.toString = function(round){
-        round = round | 8;
-        return 'x='+_this.x.toFixed(round)+', y='+_this.y.toFixed(round);
-    };
-    
-    /* Constructeur */
-    _this.x = (x)?x:0;
-    _this.y = (y)?y:0;
+    this.x = (x)?x:0;
+    this.y = (y)?y:0;
 };
+
+
+X.Vector.prototype.Add = function(vector){
+    return new X.Vector(this.x + vector.x, this.y + vector.y);
+};
+
+X.Vector.prototype.Sub = function(vector){
+    return new X.Vector(vector.x - this.x, vector.y - this.y);
+};
+
+X.Vector.prototype.Multiply = function(nombre){
+    return new X.Vector(this.x * nombre, this.y * nombre);
+};
+
+X.Vector.prototype.Divide = function(nombre){
+    nombre = 1 / nombre;//inverse
+    return new X.Vector(this.x * nombre, this.y * nombre);
+};
+
+X.Vector.prototype.Reverse = function(nombre){
+    return new X.Vector(-this.x, -this.y);
+};
+
+X.Vector.prototype.Length = function(){
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+};
+
+X.Vector.prototype.Determinant = function(vector){
+    //Déterminant : d = D_x*T_y - D_y*T_x
+    return this.x*vector.y - this.y*vector.x;
+};
+
+X.Vector.prototype.Scalar = function(vector){
+    //dot = (a.x * b.x) + (a.y * b.y)
+    return this.x*vector.x + this.y*vector.y;
+};
+
+X.Vector.prototype.Normalize = function(){
+    //Normalize = Vector * 1/ Vector.Length
+    return this.Multiply(1/this.Length());
+};
+
+X.Vector.prototype.Normale = function(){
+    return new X.Vector(this.y, -this.x);
+};
+
+X.Vector.prototype.toString = function(round){
+    round = round | 8;
+    return 'x='+this.x.toFixed(round)+', y='+this.y.toFixed(round);
+};
+
+/*Experimental*/
+X.Vector.prototype.render = function(ctx, xy, scale, color){
+    var x = 0, y = 0;
+    if(xy === 'x'){
+        x = this.Length() * scale;
+    }
+    else if(xy === 'y'){
+        y = this.Length() * scale;
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 0.5;
+//        ctx.fillStyle = 'rgba(255,255,0,1.0)';
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(x, y);
+    ctx.closePath();
+//        ctx.fill();
+    ctx.stroke();
+};
+
+/*
+Vecteur CalculerVecteurV2(Vecteur v,Vecteur N){
+    Vecteur v2;
+    float pscal = (v.x*N.x +  v.y*N.y);
+    v2.x = v.x -2*pscal*N.x;
+    v2.y = v.y -2*pscal*N.y;
+    return v2;
+}
+*/
+X.Vector.prototype.testRebond = function(normal){
+    var pscal = this.Scalar(normal);
+    var r = new X.Vector();
+    r.x = this.x-2*pscal*normal.x;
+    r.y = this.y-2*pscal*normal.y;
+    return r;
+};
+
+
 
 /* static paramètres */
 X.Vector.Params = {};

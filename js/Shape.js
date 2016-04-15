@@ -6,7 +6,6 @@ Description : prototype d'un acteur simple ayant une texture
 
 /* global include, X */
 
-include('js/lib/tool/Class.js');
 include('js/Node.js');
 include('js/Vector.js');
 include('js/Rect.js');

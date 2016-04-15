@@ -9,31 +9,19 @@ Description :
 
 include('js/Vector.js');
 
-/* 
-
-*/
 X.Rect = function(position, width, height){
     /* Properties */
-    this.x;
-    this.y;
-    this.w;
-    this.h;
-    
-    /* Méthodes */
-    
-    
-    /* Accessors */
-    this.getPosition = function(){
-        return new X.Vector(this.x, this.y);
-    };
-    this.setPosition = function(position){
-        this.x = position.x;
-        this.y = position.y;
-    };
-    
-    /* Initialisation (contructor) */
     this.x = position.x || 0;
     this.y = position.y || 0;
     this.w = width || 0;
     this.h = height || 0;
-}
+};
+
+X.Rect.prototype.getPosition = function(){
+    return new X.Vector(this.x, this.y);
+};
+
+X.Rect.prototype.setPosition = function(position){
+    this.x = position.x;
+    this.y = position.y;
+};
