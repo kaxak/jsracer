@@ -40,24 +40,25 @@ X.Car = function () {
         
         /* Les Roues */
         //* Roues Avants
+        WheelsParams = {offset: 12, wheelbase: 22};
         this.addChild('roueAVG', X.new(X.Shape, [
-                -10, -22,
+                -WheelsParams.offset, -WheelsParams.wheelbase,
                 new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
                 urlImageWheel
         ])).onUpdate = _wheelOnUpdate;
         this.addChild('roueAVD', X.new(X.Shape, [
-            10, -22,
+            WheelsParams.offset, -WheelsParams.wheelbase,
             new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
             urlImageWheel
         ])).onUpdate = _wheelOnUpdate;
         //* Roues Arrières
         this.addChild('roueARG', X.new(X.Shape, [
-                -10, 0,
+                -WheelsParams.offset, 0,
                 new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
                 urlImageWheel
         ]));
         this.addChild('roueARD', X.new(X.Shape, [
-                10, 0,
+                WheelsParams.offset, 0,
                 new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
                 urlImageWheel
         ]));

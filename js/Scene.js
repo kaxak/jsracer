@@ -7,13 +7,19 @@ Description :
 
 /* global include, X, SAT */
 
-include('js/lib/tool/Screen.js');
+
 include('js/Node.js');
 include('js/Car.js');
 include('js/Shape.js');
 include('js/Rect.js');
 include('js/Vector.js');
+include('js/Tile.js');
+include('js/TileMap.js');
+
+include('js/lib/tool/Screen.js');
 include('js/lib/ext/sat/SAT.js');
+
+include('assets/scenes/Map.js');
 
 X.Scene = function () {
     
@@ -25,7 +31,7 @@ X.Scene = function () {
         //* Appel le super contructeur 
         X.Node.apply(this, [protected, new X.Vector(0, 0), 0, new X.Vector(1, 1)]);
         
-        
+        this.addChild('circuit', X.new(X.TileMap, ['nom', 'assets/textures/tiles/TileSet2.png']));
         
         var controled_shape = this.addChild('controled_shape', X.new(X.Car,[
             X.Screen.width/2, X.Screen.height/2,
