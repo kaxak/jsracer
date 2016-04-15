@@ -91,6 +91,10 @@ AdvancedObject = function(){
         
     };
     
+    this.extend = function(pattern){
+        return Object.create(AdvancedObject.get(pattern).prototype);
+    };
+    
     return this;
 }();
 

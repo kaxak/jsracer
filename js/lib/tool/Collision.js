@@ -11,59 +11,42 @@ http://xnatd.blogspot.fr/2012/05/2d-collision-series-sat-part-1.html
 /* global include, X */
 
 include('js/Vector.js');
+include('js/Rect.js');
 
 X.Collision = function() {
-    /* Properties */
-    
-    
-    
-    /* Méthodes */
-    this.isInCollisionWith = function(collider, otherCollider) {
-        
-        //if (typeof collider == 'object' && typeof otherCollider == 'object') {
-            var boxCollider = this.setCarBoxCollider(collider);
-            var otherBoxCollider = this.setCarBoxCollider(otherCollider)
-            
-            return!((boxCollider.bottom  <  otherBoxCollider.top  ) || ( boxCollider.top > otherBoxCollider.bottom)
-                    || (boxCollider.right < otherBoxCollider.left ) || (boxCollider.left > otherBoxCollider.right));
-        //}
+    this.dotInAABB = function(X_Vector_Dot, X_Rect_AAB){
+        if(!(X_Vector_Dot instanceof X.Vector && X_Rect_AAB instanceof X.Rect)){
+            throw new Error('X.Collision.dotInAABB: Bad arguments passed!');
+        }
+        if(X_Vector_Dot.x > X_Rect_AAB.x + X_Rect_AAB.w) return false;
+        if(X_Vector_Dot.x < X_Rect_AAB.x) return false;
+        if(X_Vector_Dot.y > X_Rect_AAB.y + X_Rect_AAB.h) return false;
+        if(X_Vector_Dot.y < X_Rect_AAB.y) return false;
+        return true;
     };
-    
-    this.setCarBoxCollider = function(collider) {
-        var boxCollider = {};
-        boxCollider['bottom'] = new X.Vector(collider.position.x - 14, collider.position.y - 14);
-        
-        boxCollider['top'] = new X.Vector(collider.position.x + Math.sin(collider.orientation) * 30 ,
-                                          collider.position.y - Math.cos(collider.orientation) * 30);
-                                          
-        boxCollider['left'] = new X.Vector(collider.position.x - Math.cos(1.50) - (collider.width/2),
-                                           collider.position.y - Math.cos(1.50) - (collider.width/2));
-                                           
-        boxCollider['right'] = new X.Vector(collider.position.x - Math.sin(1.50) - (collider.width/2),
-                                            collider.position.y - Math.sin(1.50) - (collider.width/2));
-                                            
-        return boxCollider;
-    }
-    
-    this.isInScreen = function(collider) {
-        
-        if(collider.position.x > 0 && collider.position.y > 0
-            && collider.position.x < X.Screen.width 
-            && collider.position.y < X.Screen.height) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    
-    /* Accessors */
-      
-    
-    
-    /* Initialisation (contructor) */
-    
-        
+//    this.onUpdate = function(boxColliderA, boxColliderB){
+//            var b = controled_shape.getBoundingBox();
+//            var p = controled_shape.position;
+//            controled_shape.boxCollider = new SAT.Box(new SAT.Vector(p.x, p.y), b.w, b.h).toPolygon();
+//            controled_shape.boxCollider.setOffset(b.getPosition());
+//            controled_shape.boxCollider.setAngle(controled_shape.orientation);
+//
+//            b = fixed_shape.getBoundingBox();
+//            p = fixed_shape.position;
+//            fixed_shape.boxCollider = new SAT.Box(new SAT.Vector(p.x, p.y), b.w, b.h).toPolygon();
+//            fixed_shape.boxCollider.setOffset(b.getPosition());
+//            fixed_shape.boxCollider.setAngle(fixed_shape.orientation);
+//
+//            var result = new SAT.Response();
+//            if(SAT.testPolygonPolygon(controled_shape.boxCollider, fixed_shape.boxCollider, result)){
+//                controled_shape.index = 1;
+//                fixed_shape.index = 1;
+//            }
+//            else{
+//                controled_shape.index = 0;
+//                fixed_shape.index = 0;
+//            }
+//        };
     
     
 };

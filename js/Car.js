@@ -146,7 +146,7 @@ X.Car = function () {
         }
     };
     
-    X_object.prototype = X.class.get(X.Shape).prototype;
+    X_object.prototype = X.extend(X.Shape);
     X_object.prototype.getDirection = function(){return _(this, '-').direction;};
     X_object.prototype.getDirectionMAX = function(){return _(this, '-').directionMAX;};
  

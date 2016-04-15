@@ -1,65 +1,75 @@
 <!DOCTYPE html>
 <html lang="fr-fr">
 <head>
-	<meta charset="utf-8">
-	<link rel="icon" href="data:;base64,=">
-	<title>JS Racer</title>
-	<style type="text/css">
-		html,body{
-                    margin: 0;
-                    background-color: black;
-		}
-		#canvas{
-                    position: absolute;
-		    top:0;
-		    bottom: 0;
-		    left: 0;
-		    right: 0;
-		    margin:auto;
-		    background-color: grey;
-		}
-		#chrono{
-		    color: black;
-		    font-size:1.5em;
-		    font-weight:bolder;
-		    text-align: center;
-		}
-		#manuel{
-		    color: black;
-		    font-size:1.5em;
-		    font-weight:bolder;
-		    text-align: center;
-		}
-	</style>
-	<script type="text/javascript" src="js/lib/ext/ScriptManager.js"></script>
-        <script type="text/javascript" src="js/lib/ext/AdvancedObject.js"></script>
+    <meta charset="utf-8">
+    <link rel="icon" href="data:;base64,=">
+    <title>JS Racer</title>
+    <style type="text/css">
+        html,body{
+            margin: 0;
+            background-color: black;
+        }
+        #game{
+            position: relative;
+            width: 1280px;
+            height: 1024px;
+            margin:auto;
+            background-color: pink;
+        }
+        #game #canvas{
+            position: absolute;
+            top:0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin:auto;
+            background-color: grey;
+        }
+        #game #GUI{
+            background-color: rgba(0,0,0,0);
+            position: absolute;
+            top:0;
+            left: 0;
+            right: 0;
+        }
+        #game #GUI div{
+            display: inline-block;
+        }
+    </style>
+    <script type="text/javascript" src="js/lib/ext/ScriptManager.js"></script>
+    <script type="text/javascript" src="js/lib/ext/AdvancedObject.js"></script>
 </head>
 <body>
-	
-	<div id="chrono" class="timer"></div>
-	<div id="manuel">  Z : Go forward     ---    S :  Go Backward   ---    Q/D : turning left / right </div>
-	<canvas id="canvas" width="1280" height="1024">
-	</canvas>
-	
-	<script type="text/javascript">
-	/* global Game, main */
-	if (typeof X === 'undefined') {
-		//* Création du namespace
-	    var X = {/*namespace du jeu*/};
-            X.class = AdvancedObject;
-            X.new = AdvancedObject.new;//* Alias pour créer un nouvel objet avancée.
-            
-	    //* Passe le point d'entrée de l'application à la lib : Script Manager
-	    main('js/Game.js', function(){
-	    	//* Initialisation de paramètre
-	    	X.class.get(X.Node).showHotSpot = false;//static var
-                X.class.get(X.Shape).drawBoudningBox = false;
-	    	
-	    	//* Lancement du jeu
-                X.Game('canvas');
-                
-	    }, 10 * 1000);
-	}
-	</script>
+    <div id="game">
+        <canvas id="canvas" width="1280" height="1024">
+            Sorry but your browser is not compatible with the game! :(
+        </canvas>
+        <div id="GUI">
+            <div>chrono:00:00:00</div>
+            <div>help</div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    /* global Game, main */
+    if (typeof X === 'undefined') {
+            //* Création du namespace
+        var X = {/*namespace du jeu*/};
+        X.class = AdvancedObject;
+        X.new = AdvancedObject.new;//* Alias pour créer un nouvel objet avancée.
+        X.extend = AdvancedObject.extend;//* Alias pour créer un nouvel objet avancée.
+
+        //* Passe le point d'entrée de l'application à la lib : Script Manager
+        main('js/Game.js', function(){
+            //* Initialisation de paramètre
+            X.class.get(X.Node).showHotSpot = true;//static var
+            X.class.get(X.Shape).drawBoudningBox = false;
+
+            //* Lancement du jeu
+            X.Game('canvas', 'GUI');
+
+        }, 10 * 1000);
+    }
+    </script>
 </body>
 </html>

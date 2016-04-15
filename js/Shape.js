@@ -50,7 +50,7 @@ X.Shape = function () {
         };
     };
     
-    X_object.prototype = X.class.get(X.Node).prototype;
+    X_object.prototype = X.extend(X.Node);
     
     X_object.prototype.getBoundingBox = function(){ return _(this, '-').boundingBox; };
     

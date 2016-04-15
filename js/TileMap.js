@@ -47,7 +47,7 @@ X.TileMap = function () {
 	};
     };
     
-    X_object.prototype = X.class.get(X.Node).prototype;
+    X_object.prototype = X.extend(X.Node);
     
     return X.TileMap = X_object;
 };

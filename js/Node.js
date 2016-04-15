@@ -15,13 +15,13 @@ X.Node = function () {
     
     var _ = X.class.propertiesGetter();
     
-    var X_object = function(protected, position, orientation, scale) {
+    var Node = function(protected, position, orientation, scale) {
         //* Initialise les propriétés
         _(this, protected);
         
         //* Propriétés
-        _(this, '-').parent = null;
-        _(this, '-').childs = {};
+        _(this, '#').parent = null;
+        _(this, '#').childs = {};
         _(this, '+').position = position || new X.Vector(0, 0);
         _(this, '+').orientation = orientation || 0;
         _(this, '+').scale = scale || new X.Vector(1, 1);
@@ -46,8 +46,8 @@ X.Node = function () {
      * @param {Node} node : Node à ajouter.
      * @returns {Node} : Le Node ajouté ou false en cas d'erreur.
      */
-    X_object.prototype.addChild = function(name, node){
-        var _childs = _(this, '-').childs;
+    Node.prototype.addChild = function(name, node){
+        var _childs = _(this, '#').childs;
         
         if(arguments.length === 2){
             if(node instanceof X.Node){
@@ -58,10 +58,8 @@ X.Node = function () {
                 return _childs[name];
             }
             throw new Error('X.Node.addChild() : The Node '+name+' is not a valid instance of Node');
-        return false;
         }
         throw new Error('X.Node.addChild() : X.Node requiert 2 arguments ('+arguments.length+' argument(s) passed!)');
-        return false;
             
     };
     
@@ -70,7 +68,7 @@ X.Node = function () {
      * Positionne le canvas en fonction de ce Node, appel cette méthode sur les Node enfants puis dessine l'acteur ( this.localRender(ctx); ).
      * @param {CanvasRenderingContext2D} ctx : contexte de dessins 2D du canvas.
      */
-    X_object.prototype.render = function(ctx){
+    Node.prototype.render = function(ctx){
         //* Positionne le contexte
         ctx.save();
         ctx.translate(this.position.x, this.position.y);
@@ -78,7 +76,7 @@ X.Node = function () {
         ctx.scale(this.scale.x, this.scale.y);
         
         //* Appel de render sur chaque enfants
-        var _childs = _(this, '-').childs;
+        var _childs = _(this, '#').childs;
         for(var key in _childs){
             _childs[key].render(ctx);
         }
@@ -106,27 +104,27 @@ X.Node = function () {
     /**
      * Met à jour les données de l'acteur et appel cette méthode sur les Node enfants.
      */
-    X_object.prototype.update = function(){
+    Node.prototype.update = function(){
         this.onUpdate();
 
-        var _childs = _(this, '-').childs;
+        var _childs = _(this, '#').childs;
         for(var key in _childs){
             _childs[key].update();
         }
     };
     
-    X_object.prototype.getParent = function(){
-        return _(this, '-').parent;
+    Node.prototype.getParent = function(){
+        return _(this, '#').parent;
     };
-    X_object.prototype.setParent = function(parentNode){
-        _(this, '-').parent = parentNode;
-    };
-    
-    X_object.prototype.getChilds = function(){
-        return _(this, '-').childs;
+    Node.prototype.setParent = function(parentNode){
+        _(this, '#').parent = parentNode;
     };
     
-    X_object.prototype.getPosition = function(){
+    Node.prototype.getChilds = function(){
+        return _(this, '#').childs;
+    };
+    
+    Node.prototype.getPosition = function(){
         return _(this, '+').position;
     };
     
@@ -135,14 +133,9 @@ X.Node = function () {
     * @param {node} node : node dont on veut la position globale
     * @returns {Vector} globalPosition : position globale du node
     */
-    X_object.prototype.getGlobalPosition = function(node){
-        
-//        if(node instanceof X.Node){
-//            throw new Error('X.Node.getGlobalPosition : node is not a instance of X.Node');
-//        }
-        
-        var globalPosition = new X.Vector(node.getPosition().x,node.getPosition().y);
-        var actualNode = node;
+    Node.prototype.getGlobalPosition = function(){
+        var globalPosition = this.getPosition();
+        var actualNode = this;
         
         while(actualNode.getParent() !== null){
             actualNode = actualNode.getParent();
@@ -152,10 +145,10 @@ X.Node = function () {
         return globalPosition;
     };
     
-    X_object.prototype.getOrientation = function(){
+    Node.prototype.getOrientation = function(){
         return _(this, '+').orientation;
     };
-    X_object.prototype.setOrientation = function(orientation){
+    Node.prototype.setOrientation = function(orientation){
         if(orientation > Math.PI2 || orientation < 0){
             orientation -= Math.floor(orientation/Math.PI2) * Math.PI2;
         }
@@ -163,11 +156,18 @@ X.Node = function () {
             _(this, '+').orientation = orientation;
     };
     
-    X_object.prototype.getScale = function(){
+    Node.prototype.getScale = function(){
         return _(this, '+').scale;
     };
+    Node.prototype.getRoot = function(){
+        var current = this;
+        while(current.getParent() !== null){
+            current = current.getParent();
+        }
+        return current;
+    };
     
-    X_object.showHotSpot = false;
+    Node.showHotSpot = false;
  
-    return X.Node = X_object;
+    return X.Node = Node;
 };
