@@ -21,6 +21,7 @@ X.Node = function () {
         
         //* Propriétés
         _(this, '#').name = 'root';
+        _(this, '+').name = 'root';
         _(this, '#').parent = null;
         _(this, '#').childs = {};
         _(this, '+').position = position || new X.Vector(0, 0);
@@ -53,10 +54,14 @@ X.Node = function () {
         if(arguments.length === 2){
             if(node instanceof X.Node){
                 console.log('[Info] X.Node.addChild() : '+name);
+                
+//                node.setParent(this);
+                _(node, '#').parent = this;
+                _(node, '#').name = name;
+                _(node, '+').name = name;
+//                node.name = name;
+
                 _childs[name] = node;
-                _childs[name].setParent(this);
-                _(_childs[name], '#').name = name;
-//                _childs[name].name = name;
                 return _childs[name];
             }
             throw new Error('X.Node.addChild() : The Node '+name+' is not a valid instance of Node');
@@ -113,6 +118,10 @@ X.Node = function () {
         for(var key in _childs){
             _childs[key].update();
         }
+    };
+    
+    Node.prototype.getName = function(){
+        _(this, '#').name;
     };
     
     Node.prototype.getParent = function(){

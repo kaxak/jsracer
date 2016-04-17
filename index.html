@@ -11,8 +11,8 @@
         }
         
         .blink {
-            animation: blink-animation 1s steps(5, start) infinite;
-            -webkit-animation: blink-animation 1s steps(5, start) infinite;
+            animation: blink-animation 0.6s steps(5, start) infinite;
+            -webkit-animation: blink-animation 0.6s steps(5, start) infinite;
         }
         @keyframes blink-animation {
             to {
@@ -66,7 +66,7 @@
             left: 0;
             right: 0;
             text-align: center;
-            font: 48px Verdana;
+            font: 32px Verdana;
             text-decoration: blink;
         }
     </style>
@@ -81,6 +81,7 @@
         <div id="GUI">
             <div id="chrono">Chronomètre<br /></div>
             <div id="bestlap">Meilleur temps<br /></div>
+            <div id="currentlap">Dernier temps<br /></div>
             <div>Aide</div>
         </div>
         <div id="hint" class="blink">
@@ -106,6 +107,7 @@
             X.GUI.hint = new X.GUIElement('hint');
             X.GUI.chrono = new X.GUIElement('chrono');
             X.GUI.bestTime = new X.GUIElement('bestlap');
+            X.GUI.lastTime = new X.GUIElement('currentlap');
             //* Lancement du jeu
             X.Game('canvas', 'GUI');
 
