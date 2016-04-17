@@ -31,7 +31,7 @@ X.ChronoChecker = function () {
         this.onRender = function(ctx){
             var bb = _(this, '-').boundingBox;
 
-            if(false){
+            if(ChronoChecker.showBox === true){
                 var color;
                 if(_(this, '#').name === 'chronoCheck0') color = 'rgba(0,255,0,1.0)';
                 else if(_(this, '+').isDone) color = 'rgba(0,0,255,1.0)';
@@ -56,10 +56,12 @@ X.ChronoChecker = function () {
         return new X.Rect(this.getGlobalPosition(), _(this, '-').boundingBox.w, _(this, '-').boundingBox.h);
     };
     
-    
+    /* Static */
     ChronoChecker.getIndex = function(key){
         return parseInt(key.substring(11));
     };
+    
+    ChronoChecker.showBox = false;
     
     return X.ChronoChecker = ChronoChecker;
 };

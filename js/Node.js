@@ -27,9 +27,6 @@ X.Node = function () {
         _(this, '+').position = position || new X.Vector(0, 0);
         _(this, '+').orientation = orientation || 0;
         _(this, '+').scale = scale || new X.Vector(1, 1);
-        if(X.Node.showHotSpot === undefined){
-            X.Node.showHotSpot = false;
-        }
         
         /**
          * Méthode virtuelle qu'il faudrat surcharger dans les objet enfants.
