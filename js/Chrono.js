@@ -15,14 +15,14 @@ X.ChronoChecker = function () {
     
     var _ = X.class.propertiesGetter();
     
-    var ChronoChecker = function(protected, x, y, w, h) {
+    var ChronoChecker = function(protected, x, y, w, h, tileSize) {
         //* Initialise les propriétés
         _(this, protected);
         //* Appel le super contructeur 
-        X.Node.apply(this, [protected, new X.Vector(x, y), 0, new X.Vector(1, 1)]);
+        X.Node.apply(this, [protected, new X.Vector(x*tileSize, y*tileSize), 0, new X.Vector(1, 1)]);
         
         /* Propriétés */
-        _(this, '-').boundingBox = new X.Rect(new X.Vector(0, 0), w || 0, h || 0);
+        _(this, '-').boundingBox = new X.Rect(new X.Vector(0, 0), w*tileSize || 0, h*tileSize || 0);
         _(this, '-').isDone = false;
         
         this.onRender = function(ctx){

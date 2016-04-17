@@ -16,7 +16,7 @@ X.TileMap = function () {
     
     var _ = X.class.propertiesGetter();
     
-    var X_object = function(protected, nom, url) {
+    var X_object = function(protected, tileSize, tileSetURL) {
         //* Initialise les propriétés
         _(this, protected);
         
@@ -24,30 +24,28 @@ X.TileMap = function () {
         X.Node.apply(this, [protected, new X.Vector(0, 0), 0, new X.Vector(1, 1)]);
         
         /* Propriétés */
-	_(this, '+').url = url;
-	_(this, '+').nom = nom;
-	_(this, '+').terrain = this.nom;
-	_(this, '+').tileset = new X.Tiles(this.url);
+	_(this, '-').tileSize = tileSize;
+        _(this, '-').lineLength = ~~(X.Screen.width/tileSize);
+	_(this, '-').tileSet = new X.Tiles(tileSetURL);
         
         this.onRender = function(context) {
-		//console.info('[Info] dans function dessiner map')
-		for(var i = 0, l = Maps.course1.length ; i < l ; i++) {
-			var ligne = Maps.course1[i];
-			//console.log('ligne'+ ligne);
-			//console.info('[Info] dans 1er for dessiner map')
-			//console.log('ligne longueur '+ ligne.length);
-			var y = i * 32;
-			for(var j = 0, k = ligne.length ; j < k ; j++) {
-				//console.info('[Info] dans 2eme for dessiner map')
-				this.tileset.drawTile(ligne[j], context, j * 32, y);
-				//console.info('[Info] dessiner tile dans dessiner map')
-			}
-		}
+            for(var i = 0; i < Maps.course1.length; i++) {
+                var y = ~~(i/_(this, '-').lineLength);
+                var x = ~~(i%_(this, '-').lineLength);
+                _(this, '-').tileSet.drawTile(
+                        Maps.course1[i], 
+                context, 
+                x * _(this, '-').tileSize, y * _(this, '-').tileSize);
+            }
 
 	};
     };
     
     X_object.prototype = X.extend(X.Node);
+    
+    X_object.prototype.getTileSize = function(){
+        return _(this, '-').tileSize;
+    };
     
     return X.TileMap = X_object;
 };

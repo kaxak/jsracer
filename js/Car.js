@@ -22,12 +22,12 @@ X.Car = function () {
     
     var _ = X.class.propertiesGetter();
     
-    var X_object = function(protected, x, y, boundingBox, urlImageCar, urlImageWheel) {
+    var X_object = function(protected, x, y, orientation, boundingBox, urlImageCar, urlImageWheel) {
         //* Initialise les propriétés
         _(this, protected);
         //* Appel le super contructeur 
         X.Shape.apply(this, [protected, x, y, boundingBox, urlImageCar]);
-        
+        this.setOrientation(orientation);
         /* Propriétés */
         _(this, '-').vitesse = 0;
         _(this, '-').coefFrictionMoteur = 5;
