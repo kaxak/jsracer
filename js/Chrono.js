@@ -2,6 +2,8 @@
 Created : 15/04/16
 Authors : ROCHE Emmanuel
 Description : Gère le chronomètrage de la voiture
+TODO:
+    -
 */
 
 /* global include, X, SAT */
@@ -10,6 +12,7 @@ include('js/Vector.js');
 include('js/Node.js');
 
 include('js/lib/tool/Collision.js');
+include('js/lib/tool/GUI.js');
 
 X.ChronoChecker = function () {
     
@@ -23,16 +26,20 @@ X.ChronoChecker = function () {
         
         /* Propriétés */
         _(this, '-').boundingBox = new X.Rect(new X.Vector(0, 0), w*tileSize || 0, h*tileSize || 0);
-        _(this, '-').isDone = false;
+        _(this, '+').isDone = false;
         
         this.onRender = function(ctx){
-//            var _boundingBox = _boundingBox;
+            var bb = _(this, '-').boundingBox;
 
             if(true){
-                ctx.strokeStyle = (_(this, '-').isDone )?'rgba(0,0,255,1.0)':'rgba(255,255,0,1.0)';
+                var color;
+                if(_(this, '#').name === 'chronoCheck0') color = 'rgba(0,255,0,1.0)';
+                else if(_(this, '+').isDone) color = 'rgba(0,0,255,1.0)';
+                else color = 'rgba(255,255,0,1.0)';
+                ctx.strokeStyle = color;
                 ctx.lineWidth = 1;
                 ctx.beginPath();
-                ctx.rect(_(this, '-').boundingBox.x, _(this, '-').boundingBox.y, _(this, '-').boundingBox.w, _(this, '-').boundingBox.h);
+                ctx.rect(bb.x,bb.y, bb.w, bb.h);
                 ctx.closePath();
                 ctx.stroke();
             }
@@ -49,14 +56,6 @@ X.ChronoChecker = function () {
         return new X.Rect(this.getGlobalPosition(), _(this, '-').boundingBox.w, _(this, '-').boundingBox.h);
     };
     
-    ChronoChecker.prototype.done = function(){
-        _(this, '-').isDone = true;
-    };
-    
-    ChronoChecker.prototype.reset = function(){
-        _(this, '-').isDone = false;
-    };
-    
     return X.ChronoChecker = ChronoChecker;
 };
 
@@ -71,23 +70,69 @@ X.Chrono = function () {
         X.Node.apply(this, [protected, new X.Vector(0, 0), 0, new X.Vector(1, 1)]);
         
         /* Propriétés */
-        _(this, '-').checks = [];
+        _(this, '-').state = 0;//0 off, 1 starting, 2 started
+        _(this, '-').timeZero = null;
+        
+        _(this, '-').timerGui = new X.Timer(32);
+        _(this, '-').isHintHidden = false;
         
         this.onUpdate = function(){
+            if(_(this, '-').timerGui.test() && _(this, '-').timeZero !== null){
+                X.GUI.chrono.setText('Chronomètre<br />' + X.Time.format(getTime.call(this)));
+                
+            }
+            
+            
             var _carPosition = this.getRoot().getChilds()['car_player'].getPosition();
             var _childs = _(this, '#').childs;
             for(var key in _childs){
                 //_childs[key].update();
                 if(X.Collision.dotInAABB(_carPosition, _childs[key].getBoxCollider())){
-                    _childs[key].done();
+                    //* Ligne d'arrivée
                     if(key === 'chronoCheck0'){
-                        this.reset();
+                        //* Si on commence ou qu'on passe la ligne on démarre le chrono
+                        if(_(this, '-').state === 0 || _(this, '-').state === 2){
+                            chronoEnd.call(this);
+                            chronoStart.call(this);
+                        }
+                        else{
+                            
+                        }
+                        
+                    }
+                    //* Autres point de passage
+                    else if(!_childs[key].isDone && _(this, '-').state !== 0){
+                        if(_(this, '-').state === 1) _(this, '-').state = 2;
+                        _childs[key].isDone = true;
                     }
                 }
             }
         };
         
     };
+    
+    var chronoStart = function(){
+        //* Cache le hint de dépard si besoin
+        if(!_(this, '-').isHintHidden && _(this, '-').state !== 0){
+            _(this, '-').isHintHidden = true;
+            X.GUI.hint.hide();
+        }
+        
+        _(this, '-').state = 1;
+        this.reset();
+        _(this, '-').timeZero = +new Date();
+        
+        
+    };
+    
+    var getTime = function(){
+        return +new Date() - _(this, '-').timeZero;
+    };
+    
+    var chronoEnd = function(){
+        X.GUI.bestTime.setText('Meilleur temps<br />' + X.Time.format(getTime.call(this)));
+    };
+    
     Chrono.prototype = X.extend(X.Node);
     
     Chrono.prototype.addCheck = function(chronoChecker){
@@ -101,7 +146,7 @@ X.Chrono = function () {
     Chrono.prototype.reset = function(){
         var _childs = this.getChilds();
         for(var key in _childs){
-            _childs[key].reset();
+            _childs[key].isDone = false;
         }
     };
     

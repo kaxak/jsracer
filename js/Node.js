@@ -20,6 +20,7 @@ X.Node = function () {
         _(this, protected);
         
         //* Propriétés
+        _(this, '#').name = 'root';
         _(this, '#').parent = null;
         _(this, '#').childs = {};
         _(this, '+').position = position || new X.Vector(0, 0);
@@ -54,7 +55,8 @@ X.Node = function () {
                 console.log('[Info] X.Node.addChild() : '+name);
                 _childs[name] = node;
                 _childs[name].setParent(this);
-                _childs[name].name = name;
+                _(_childs[name], '#').name = name;
+//                _childs[name].name = name;
                 return _childs[name];
             }
             throw new Error('X.Node.addChild() : The Node '+name+' is not a valid instance of Node');

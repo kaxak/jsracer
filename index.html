@@ -9,12 +9,31 @@
             margin: 0;
             background-color: black;
         }
+        
+        .blink {
+            animation: blink-animation 1s steps(5, start) infinite;
+            -webkit-animation: blink-animation 1s steps(5, start) infinite;
+        }
+        @keyframes blink-animation {
+            to {
+              visibility: hidden;
+            }
+        }
+        @-webkit-keyframes blink-animation {
+            to {
+              visibility: hidden;
+            }
+        }
+        
         #game{
             position: relative;
             width: 1280px;
             height: 1024px;
             margin:auto;
             background-color: pink;
+            color: white;
+            text-shadow: black -1px -1px 2px;
+            font-family: Verdana;
         }
         #game #canvas{
             position: absolute;
@@ -31,9 +50,24 @@
             top:0;
             left: 0;
             right: 0;
+            text-align: center;
+            
+            vertical-align: top;
         }
         #game #GUI div{
+            width: 300px;
             display: inline-block;
+            height: 40px;
+            vertical-align: top;
+        }
+        #game #hint{
+            position: absolute;
+            top:46%;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font: 48px Verdana;
+            text-decoration: blink;
         }
     </style>
     <script type="text/javascript" src="js/lib/ext/ScriptManager.js"></script>
@@ -45,8 +79,12 @@
             Sorry but your browser is not compatible with the game! :(
         </canvas>
         <div id="GUI">
-            <div>chrono:00:00:00</div>
-            <div>help</div>
+            <div id="chrono">Chronomètre<br /></div>
+            <div id="bestlap">Meilleur temps<br /></div>
+            <div>Aide</div>
+        </div>
+        <div id="hint" class="blink">
+            Franchissez la line pour commencer
         </div>
     </div>
 
@@ -62,9 +100,12 @@
         //* Passe le point d'entrée de l'application à la lib : Script Manager
         main('js/Game.js', function(){
             //* Initialisation de paramètre
-            X.class.get(X.Node).showHotSpot = true;//static var
+            X.class.get(X.Node).showHotSpot = false;//static var
             X.class.get(X.Shape).drawBoudningBox = false;
 
+            X.GUI.hint = new X.GUIElement('hint');
+            X.GUI.chrono = new X.GUIElement('chrono');
+            X.GUI.bestTime = new X.GUIElement('bestlap');
             //* Lancement du jeu
             X.Game('canvas', 'GUI');
 

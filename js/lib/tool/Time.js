@@ -40,27 +40,34 @@ X.Time = function() {
         return _compteur;
     };
     
-    this.displayTime = function (milli) {
-        
-      var dixiemeDeSec = milli % 100;
-      var seconds = Math.floor((milli / 1000) % 60);
-      var minutes = Math.floor((milli / (60 * 1000)) % 60);
-      
-      if(minutes < 10) {
-          minutes = '0'+ minutes;
-      }
-      if(seconds < 10) {
-          seconds = '0'+ seconds;
-      }
-      if(dixiemeDeSec < 10) {
-          dixiemeDeSec = '0'+ dixiemeDeSec;
-      }
+    this.format = function (milli) {
+        var seconds = Math.floor((milli / 1000) % 60);
+        var minutes = Math.floor((milli / (60 * 1000)) % 60);
 
-      return minutes + ":" + seconds + "." + dixiemeDeSec;
-    }
+        minutes = ('00'+minutes).slice(-2);
+        seconds = ('00'+seconds).slice(-2);
+        var dixiemeDeSec = ('0000'+milli).slice(-4);
+
+        return minutes + ":" + seconds + "." + dixiemeDeSec;
+    };
     
     
     /* Initialisation (contructor) */  
     _start = +new Date();
 };
 X.Time = new X.Time();
+
+X.Timer = function(milliseconds, once){
+    var _lastExec = +new Date();
+    var _step = milliseconds;
+    
+    this.test = function(){
+        var now = +new Date();
+        var current = now - _lastExec;
+        if(current > _step){
+            _lastExec = now - current + _step;
+            return true;
+        }
+        return false;
+    };
+};
