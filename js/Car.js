@@ -38,6 +38,36 @@ X.Car = function () {
         _(this, '-').directionMAX = 20;
         _(this, '-').state = 0; //0=arret, 1=accelere, 2=freine
         
+        _(this, '-').binds = {};
+        _(this, '-').binds.accelerator = {
+            keyboard:['z','up'],
+            gamepads:{
+                0:['A']
+            },
+            mouse:[]
+        };
+        _(this, '-').binds.brake = {
+            keyboard:['s','down'],
+            gamepads:{
+                0:['B']
+            },
+            mouse:[]
+        };
+        _(this, '-').binds.turnLeft = {
+            keyboard:['q','left'],
+            gamepads:{
+                0:['DLEFT']
+            },
+            mouse:[]
+        };
+        _(this, '-').binds.turnRight = {
+            keyboard:['d','right'],
+            gamepads:{
+                0:['DRIGHT']
+            },
+            mouse:[]
+        };
+        
         /* Les Roues */
         //* Roues Avants
         WheelsParams = {offset: 12, wheelbase: 22};
@@ -65,13 +95,14 @@ X.Car = function () {
         
         this.onUpdate = function(){
             var direction = X.Vector.Tools.FromAngle(this.orientation+Math.PIO2*3);
+            var _binds = _(this, '-').binds;
 
-            if(X.Input.isKeyPress('z')){
+            if(X.Input.isPressed(_binds.accelerator)){
                 if(_(this, '-').state === 0 || _(this, '-').state === 2)
                     _(this, '-').state = 1;
                 _(this, '-').vitesse += _(this, '-').acceleration * X.Time.getDelta();
             }
-            if(X.Input.isKeyPress('s')){
+            if(X.Input.isPressed(_binds.brake)){
                 if(_(this, '-').state === 1)
                     _(this, '-').state = 2;
                 _(this, '-').vitesse -= _(this, '-').freinage * X.Time.getDelta();
@@ -79,17 +110,17 @@ X.Car = function () {
             }
             
 
-            if((X.Input.isKeyPress('d') && X.Input.isKeyPress('q')) || !(X.Input.isKeyPress('d') || X.Input.isKeyPress('q'))){
+            if((X.Input.isPressed(_binds.turnRight) && X.Input.isPressed(_binds.turnLeft)) || !(X.Input.isPressed(_binds.turnRight) || X.Input.isPressed(_binds.turnLeft))){
                 _releaseDirection.apply(this);
                 
             }
             else{
-                if(X.Input.isKeyPress('d')){
+                if(X.Input.isPressed(_binds.turnRight)){
                     _(this, '-').direction += _(this, '-').directionMAX * X.Time.getDelta() * 10;
                     if(_(this, '-').direction > _(this, '-').directionMAX) _(this, '-').direction = _(this, '-').directionMAX;
 
                 }
-                if(X.Input.isKeyPress('q')){
+                if(X.Input.isPressed(_binds.turnLeft)){
                     _(this, '-').direction -= _(this, '-').directionMAX * X.Time.getDelta() * 10;
                     if(_(this, '-').direction < -_(this, '-').directionMAX) _(this, '-').direction = -_(this, '-').directionMAX;
                 }

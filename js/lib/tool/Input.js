@@ -10,128 +10,81 @@ Aide :
 
 /* global include, X */
 
-X.Input = function() {
+X.Input = new function() {
     
     /* Properties */
     //objet littéral contenant les keycode en provenance de l'utilisateur
-    var _keysDown = {};
-    var _padBtnDown = [];
-    //var _padButtonsDown = {};
+    var _keys = [];
+    var _mouseButtons = [];
+    var _gamepadButtons = [];
     
-    /* Initialisation (contructor) */
     //attibut et enleve les keycode de l'objet KeysDown en fonction
     //des touches du clavier utilisées
     window.addEventListener("keydown", function (e) {
-            _keysDown[e.keyCode] = true;
-        }, false);
+        _preventDefault(e);
+        _keys[e.keyCode] = true;
+    }, false);
 
     window.addEventListener("keyup", function (e) {
-        delete _keysDown[e.keyCode];
+        _preventDefault(e);
+        delete _keys[e.keyCode];
     }, false);
     
     /**
      * Retourne 'true' si la touche correspondante a "key" est pressée.
      * @param {string} key : touche, keyCode ou string faisant référence à une touche du clavier (touche:'a' ou keyCode:65)
      */
-    this.isKeyPress = function(key) {
-        return _getKeyCode(key) in _keysDown;
-    };
-    
-    this.isPadBtnPress = function(btn) {
-        
-        if(typeof btn === 'string') {
-            btn = this.getX360Mapping(btn)
-        }
-        
-        var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
-        if (!gamepads) {
-          return;
-        } else {
-         var gp1 = gamepads[0]; 
-        }
-        
-        var manuel = document.getElementById('manuel')
-        
-        if(typeof gp1 === 'object') {
-            
-            manuel.innerHTML = 'A : go forward -- B : go backward -- X : handbrake -- D-PAD left : turn left -- D-PAD right: turn right';
-            
-            for(var i = 0; i < gp1.buttons.length; i++) {
-                if(this.buttonPressed(gp1.buttons[i])) {
-                    _padBtnDown[i] = true;
-                } else {
-                    _padBtnDown[i] = false;
+    this.isPressed = function(keys){
+        if(typeof keys === 'object' || keys instanceof Object){
+            var key = null;
+            //* Test les entrées clavier
+            for(var i = 0; i < keys.keyboard.length; ++i){
+                key = keys.keyboard[i];
+                if(typeof key === 'string' || key instanceof String){
+                    if(_getKeyCode(key.toUpperCase()) in _keys) return true;
                 }
             }
-        } else { 
-            manuel.innerHTML = 'Z : Go forward  -- S :  Go Backward -- SPACE : HandBrake  --  Q/D : turning left / right';
-        }
-        
-        return _padBtnDown[btn];
-        
-    };
-    
-    this.buttonPressed = function (b) {
-          if (typeof(b) == "object") {
-            return b.pressed;
-          }
-          return b == 1.0;
-    };
-    
-    this.getX360Mapping = function(btn) {
-        
-        switch (btn) {
-                case 'A':
-                    btn = 0;
-                    break;
-                case 'B':
-                    btn = 1;
-                    break;
-                case 'X':
-                    btn = 2;
-                    break;
-                case 'Y':
-                    btn = 3;
-                    break;
-                case 'LB':
-                    btn = 4;
-                    break;
-                case 'RB':
-                    btn = 5;
-                    break;
-                case 'LT':
-                    btn = 6;
-                    break;
-                case 'RT':
-                    btn = 7;
-                    break;
-                case 'BACK':
-                    btn = 8;
-                    break;
-                case 'START':
-                    btn = 9;
-                    break;
-                case 'LEFT_STICK':
-                    btn = 10;
-                    break;
-                case 'RIGHT_STICK':
-                    btn = 11;
-                    break;
-                case 'D-PAD UP':
-                    btn = 12;
-                    break;
-                case 'D-PAD DOWN':
-                    btn = 13;
-                    break;
-                case 'D-PAD LEFT':
-                    btn = 14;
-                    break;
-                case 'D-PAD RIGHT':
-                    btn = 15;
-                    break;
+            //* Test les entrées des gamepads
+            for(var id in keys.gamepads){
+                for(var i = 0; i < keys.gamepads[id].length; ++i){
+                    key = keys.gamepads[id][i];
+                    if(typeof key === 'string' || key instanceof String){
+                        if(_getX360Code(key.toUpperCase()) in _gamepadButtons[id]) return true;
+                    }
+                }
             }
-        return btn;
+            
+        }
+        return false;
     };
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    this.pollGamepads = function(){
+        var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : null);
+        //* Pas de gamepad trouvés ou navigateur imcompatible
+        if(gamepads === null) return;
+        
+        //* Pour chaque gamepad
+        for(var i = 0; i < gamepads.length; ++i){
+            var gamepad = gamepads[i];
+            //* Si le gamepad est valid
+            if(!gamepad) continue;
+            //* Pour chaque boutons pressés on l'ajoute au tableau _gamepadButtons sinon on l'enlève
+            gamepad.buttons.forEach(function(button, i, a){
+                if(!_gamepadButtons[gamepad.index]) _gamepadButtons[gamepad.index] = [];
+                if(button.pressed){
+                    _gamepadButtons[gamepad.index][i] = true;
+                }
+                else if(_gamepadButtons[gamepad.index][i]){
+                    delete _gamepadButtons[gamepad.index][i];
+                }
+            });
+        };
+    };
+    
     //* http://stackoverflow.com/questions/94037/convert-character-to-ascii-code-in-javascript
     /**
      * Retourne le keyCode (integer) d'une touche ou 'false' si la "key" ne correspond à rien.
@@ -139,7 +92,7 @@ X.Input = function() {
      */
     var _getKeyCode = function(key){
         if(typeof key === 'string' || key instanceof String){
-            key = key.toUpperCase();
+            
             
             if(key.length === 1){
                 //* Si on est entre A et Z on retourne le code ASCII
@@ -154,6 +107,14 @@ X.Input = function() {
                     return 13;
                 case 'SPACE':
                     return 32;
+                case 'LEFT':
+                    return 37;
+                case 'UP':
+                    return 38;
+                case 'RIGHT':
+                    return 39;
+                case 'DOWN':
+                    return 40;
             }
         }
         else if(typeof key === 'number'){
@@ -164,5 +125,73 @@ X.Input = function() {
         return false;
     };
     
-};
-X.Input = new X.Input();//genre "singleton"
+    /**
+     * 
+     * @param {type} btn
+     * @returns {Number|Boolean}
+     */
+    var _getX360Code = function(btn) {
+        if(typeof btn === 'string' || btn instanceof String){
+            switch (btn) {
+                case 'A':
+                    return 0;
+                    break;
+                case 'B':
+                    return 1;
+                case 'X':
+                    return 2;
+                case 'Y':
+                    return 3;
+                case 'LB':
+                    return 4;
+                case 'RB':
+                    return 5;
+                case 'LT':
+                    return 6;
+                case 'RT':
+                    return 7;
+                case 'BACK':
+                    return 8;
+                case 'START':
+                    return 9;
+                case 'LEFT_STICK':
+                case 'LSTICK':
+                    return 10;
+                case 'RIGHT_STICK':
+                case 'RSTICK':
+                    return 11;
+                case 'D-PAD_UP':
+                case 'DUP':
+                    return 12;
+                case 'D-PAD_DOWN':
+                case 'DDOWN':
+                    return 13;
+                case 'D-PAD_LEFT':
+                case 'DLEFT':
+                    return 14;
+                case 'D-PAD_RIGHT':
+                case 'DRIGHT':
+                    return 15;
+            }
+        }
+        else if(typeof btn === 'number'){
+            if(btn >= 0 && btn <= 15) return btn;
+        }
+        return false;
+    };
+    
+    /**
+     * 
+     * @param {type} e
+     * @returns {undefined}
+     */
+    var _preventDefault = function(e){
+        if(e.keyCode){
+            var excepts = [17,116,122];
+            if(!excepts.includes(e.keyCode)){
+                e.preventDefault();
+            }
+        }
+    };
+    
+}();

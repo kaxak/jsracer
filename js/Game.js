@@ -27,6 +27,8 @@ X.Game = function (canvas, gui) {
         try{
             //* Met à jour le singleton X.Time
             X.Time.update(timeStamp);
+            
+            X.Input.pollGamepads();
 
             //* Met à jour la scène
             _sceneMgr.update();
