@@ -9,7 +9,7 @@ Description :
 
 /* global X */
 
-X.Time = function() {
+X.Time = new function() {
     /* Properties */
     var _delta;
     var _lastTime = 0;
@@ -54,8 +54,7 @@ X.Time = function() {
     
     /* Initialisation (contructor) */  
     _start = +new Date();
-};
-X.Time = new X.Time();
+}();
 
 X.Timer = function(milliseconds, once){
     var _lastExec = +new Date();

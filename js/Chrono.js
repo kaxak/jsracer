@@ -86,7 +86,7 @@ X.Chrono = function () {
         _(this, '-').isHintHidden = false;
         
         this.onUpdate = function(){
-            //* Met à jour le chronomètre GUI toutes les 32 milliseconds via le Timer
+            //* Met à jour le chronomètre GUI à chaque tic du timer
             if(_(this, '-').timerGui.test() && _(this, '-').timeZero !== null){
                 X.GUI.chrono.setText('Chronomètre<br />' + X.Time.format(getTime.call(this)));
             }

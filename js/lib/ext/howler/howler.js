@@ -880,7 +880,7 @@
       // if the sound hasn't been loaded, add it to the event queue
       if (!self._loaded) {
         self.on('play', function() {
-          self.playback_rate(value, id);
+          self.rate(value, id);
         });
 
         return self;

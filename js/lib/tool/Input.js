@@ -51,7 +51,7 @@ X.Input = new function() {
      */
     var _preventDefault = function(e){
         if(e.keyCode){
-            var excepts = [17,116,122];
+            var excepts = [17,116,122, 123];
             if(!excepts.includes(e.keyCode)){
                 e.preventDefault();
             }
@@ -88,10 +88,12 @@ X.Input = new function() {
             //* Test les entrées des gamepads
             if(binds.gamepads){
                 for(var id in binds.gamepads){
-                    for(var i = 0; i < binds.gamepads[id].length; ++i){
-                        key = binds.gamepads[id][i];
-                        if(typeof key === 'string' || key instanceof String){
-                            if(_getX360Code(key.toUpperCase()) in _gamepadButtons[id]) return true;
+                    if(id in _gamepadButtons){
+                        for(var i = 0; i < binds.gamepads[id].length; ++i){
+                            key = binds.gamepads[id][i];
+                            if(typeof key === 'string' || key instanceof String){
+                                if(_getX360Code(key.toUpperCase()) in _gamepadButtons[id]) return true;
+                            }
                         }
                     }
                 }
