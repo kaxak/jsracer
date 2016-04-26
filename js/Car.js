@@ -59,7 +59,7 @@ X.Car = function () {
         _(this, '-').binds.brake = {
             keyboard:['s','down'],
             gamepads:{
-                0:['B']
+                0:['B', 'X']
             },
             mouse:[]
         };

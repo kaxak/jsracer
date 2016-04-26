@@ -85,6 +85,8 @@ X.Chrono = function () {
         _(this, '-').timerGui = new X.Timer(64);
         _(this, '-').isHintHidden = false;
         
+        var e_chronoEndLap = new CustomEvent("chrono-end-lap", {});
+        
         this.onUpdate = function(){
             //* Met à jour le chronomètre GUI à chaque tic du timer
             if(_(this, '-').timerGui.isElapsed() && _(this, '-').timeZero !== null){
@@ -102,6 +104,7 @@ X.Chrono = function () {
                         if(_(this, '-').state === 0 || _(this, '-').state === 2){
                             if(_(this, '-').state !== 0){
                                 chronoEnd.call(this);
+                                X.eventManager.dispatchEvent(e_chronoEndLap);
                             }
                             chronoStart.call(this);
                         }
@@ -164,7 +167,7 @@ X.Chrono = function () {
         var totalPenality = 0;
         while( i > 0 && !current.isDone){
             current.isDone = true;
-            totalPenality += 2000;
+            totalPenality += 1000;
             --i;
             current = _childs['chronoCheck'+i];
         }

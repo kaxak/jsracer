@@ -45,7 +45,7 @@
             background-color: grey;
         }
         #game #GUI{
-            background-color: rgba(0,0,0,0);
+            background-color: rgba(0,0,0,0.3);
             position: absolute;
             top:0;
             left: 0;
@@ -95,9 +95,13 @@
     if (typeof X === 'undefined') {
             //* Création du namespace
         var X = {/*namespace du jeu*/};
+        
+        //* AdvancedObject
         X.class = AdvancedObject;
         X.new = AdvancedObject.new;//* Alias pour créer un nouvel objet avancée.
         X.extend = AdvancedObject.extend;//* Alias pour l'héritage avec prototype.
+        
+        X.eventManager = window;
 
         //* Passe le point d'entrée de l'application à la lib : Script Manager
         main('js/Game.js', function(){
