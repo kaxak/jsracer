@@ -100,8 +100,9 @@ X.Chrono = function () {
                     if(key === 'chronoCheck0'){
                         //* Si on commence ou qu'on passe la ligne on démarre le chrono
                         if(_(this, '-').state === 0 || _(this, '-').state === 2){
-                            if(_(this, '-').state !== 0)
+                            if(_(this, '-').state !== 0){
                                 chronoEnd.call(this);
+                            }
                             chronoStart.call(this);
                         }
                         else{

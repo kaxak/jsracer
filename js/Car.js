@@ -3,8 +3,6 @@ Created :
 Authors : TORRES Julien, GINOT Gilles, ROCHE Emmanuel
 Description : creer un objet de type Car
 
-Vmax = sqrt((acceleration - friction moteur)8550. / friction air)
-
 */
 
 /* global include, X, Howl */
@@ -17,7 +15,8 @@ include('js/lib/tool/Input.js');
 include('js/lib/tool/Screen.js');
 include('js/lib/tool/Collision.js');
 include('js/lib/ext/howler/howler.js').extension = 'js/lib/ext/howler/howler_ext.js';
-include('js/Animation.js');
+include('js/Wheel.js');
+
 
 X.Car = function () {
     
@@ -92,41 +91,31 @@ X.Car = function () {
         //* Roues Avants
         var WheelsParams = {offset: 12, wheelbase: 22};
         
-        var roueAVG = this.addChild('roueAVG', X.new(X.Animation, [
+        this.addChild('roueAVG', X.new(X.Wheel, [
                 -WheelsParams.offset, -WheelsParams.wheelbase,
                 new X.Rect(new X.Vector(-6/2, -12/2), 7, 12),
                 urlImageWheel_L,
-                {
-                    idle : { Row: 0, startCol: 0, endCol: 0, interval: 1000 },
-                    moving : { Row: 0, startCol: 1, endCol: 6, interval: 1000}
-                }
+                true
         ]));
-        roueAVG.onUpdate = function(){
-            _wheelOnUpdate.call(this);
-            if(this.getParent().getVitesse() > 0) {
-                roueAVG.playLoop('moving',  1 * this.getParent().getVitesse());
-            }
-            else {
-                roueAVG.playLoop('idle',  1);
-            }
-            
-        };
         
-        this.addChild('roueAVD', X.new(X.Shape, [
-            WheelsParams.offset, -WheelsParams.wheelbase,
-            new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
-            urlImageWheel_R
-        ])).onUpdate = _wheelOnUpdate;
-        //* Roues Arrières
-        this.addChild('roueARG', X.new(X.Shape, [
-                -WheelsParams.offset, 0,
-                new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
-                urlImageWheel_L
+        this.addChild('roueAVD', X.new(X.Wheel, [
+                WheelsParams.offset, -WheelsParams.wheelbase,
+                new X.Rect(new X.Vector(-6/2, -12/2), 7, 12),
+                urlImageWheel_R,
+                true
         ]));
-        this.addChild('roueARD', X.new(X.Shape, [
+        //* Roues Arrières
+        this.addChild('roueARG', X.new(X.Wheel, [
+                -WheelsParams.offset, 0,
+                new X.Rect(new X.Vector(-6/2, -12/2), 7, 12),
+                urlImageWheel_L,
+                false
+        ]));
+        this.addChild('roueARD', X.new(X.Wheel, [
                 WheelsParams.offset, 0,
-                new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
-                urlImageWheel_R
+                new X.Rect(new X.Vector(-6/2, -12/2), 7, 12),
+                urlImageWheel_R,
+                false
         ]));
         
         this.onUpdate = function(){

@@ -1,6 +1,6 @@
 /*
 Created : 
-Authors : ROCHE Emmanuel, TORRES Julien, GINOT Gilles, DELANNOY Sabrina, PAOLI Jérôme
+Authors : ROCHE Emmanuel, GINOT Gilles
 Description :
     
 */
@@ -26,7 +26,7 @@ X.Animation = function() {
         _(this, '-').row = 0;
         _(this, '-').tickCount = 0;
         _(this, '-').SequenceTimeStart = X.Time.getLastTime();
-        _(this, '-').sequences = sequences;
+        _(this, '#').sequences = sequences;
         _(this, '-').reverse = false;
         _(this, '-').endSequence = false;
         _(this, '-').currentSequence = '';
@@ -73,7 +73,7 @@ X.Animation = function() {
     };
     
     var startSequence = function() {
-        var _sequence = _(this, '-').sequences[_(this, '-').currentSequence];
+        var _sequence = _(this, '#').sequences[_(this, '-').currentSequence];
         
         if(_(this, '-').SequenceTimeStart === X.Time.getLastTime()) { 
             _(this, '-').col = _sequence.startCol;
@@ -89,10 +89,10 @@ X.Animation = function() {
         
         var _name = _(this, '-').currentSequence;
         
-        if(Array.isArray(_(this, '-').sequences[_name].interval)) {
+        if(Array.isArray(_(this, '#').sequences[_name].interval)) {
             calculateFrameFromArray.call(this);
         } 
-        else if(_(this, '-').sequences[_name].interval) {
+        else if(_(this, '#').sequences[_name].interval) {
             calculateFrameIntervalFix.call(this);
         } 
         else{
@@ -106,7 +106,7 @@ X.Animation = function() {
     };
     
     var calculateFrameIntervalFix = function() {
-        var _sequence = _(this, '-').sequences[ _(this, '-').currentSequence];
+        var _sequence = _(this, '#').sequences[ _(this, '-').currentSequence];
         
         var timeElapsed = (X.Time.getLastTime() - _(this, '-').SequenceTimeStart);
         var realInterval = _sequence.interval / _(this, '-').rate;
