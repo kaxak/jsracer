@@ -91,54 +91,27 @@ X.Car = function () {
         /* Les Roues */
         //* Roues Avants
         var WheelsParams = {offset: 12, wheelbase: 22};
-        var animL = X.new( X.Animation, [
-            //sprite
-            urlImageWheel_L,
-            //sequences
-            {
-            idle : { Row: 0, startCol: 0, endCol: 0, interval: 100 },
-            moving : { Row: 0, startCol: 1, endCol: 6, interval: 0.1}
-            },
-            //options
-            {
-                frameW: 7, 
-                frameH: 12
-            }
-        ]);
         
-        var animR = X.new( X.Animation, [
-            //sprite
-            urlImageWheel_R,
-            //sequences
-            {
-            idle : { Row: 0, startCol: 0, endCol: 0, interval: 100 },
-            moving : { Row: 0, startCol: 1, endCol: 6, interval: 0.1}
-            },
-            //options
-            {
-                frameW: 7, 
-                frameH: 12
-            }
-        ]);
-        
-        var roueAVG = this.addChild('roueAVG', X.new(X.Shape, [
+        var roueAVG = this.addChild('roueAVG', X.new(X.Animation, [
                 -WheelsParams.offset, -WheelsParams.wheelbase,
-                new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
-                urlImageWheel_L
+                new X.Rect(new X.Vector(-6/2, -12/2), 7, 12),
+                urlImageWheel_L,
+                {
+                    idle : { Row: 0, startCol: 0, endCol: 0, interval: 1000 },
+                    moving : { Row: 0, startCol: 1, endCol: 6, interval: 1000}
+                }
         ]));
         roueAVG.onUpdate = function(){
             _wheelOnUpdate.call(this);
             if(this.getParent().getVitesse() > 0) {
-                animL.playLoop('moving',  1 * this.getParent().getVitesse());
+                roueAVG.playLoop('moving',  1 * this.getParent().getVitesse());
             }
             else {
-                animL.playLoop('idle',  1);
+                roueAVG.playLoop('idle',  1);
             }
             
         };
-        roueAVG.onRender = function(ctx) {
-            animL.draw(ctx, 0, 0);
-        };
+        
         this.addChild('roueAVD', X.new(X.Shape, [
             WheelsParams.offset, -WheelsParams.wheelbase,
             new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),

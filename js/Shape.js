@@ -21,19 +21,17 @@ X.Shape = function () {
         X.Node.apply(this, [protected, new X.Vector(x, y), 0, new X.Vector(1, 1)]);
         
         //* Propriétés
-        _(this, '-').boundingBox = boundingBox || new X.Rect(new X.Vector(0, 0), 0, 0);
-        _(this, '-').image = new Image();
-        _(this, '-').image.src = urlImage;
+        _(this, '#').boundingBox = boundingBox || new X.Rect(new X.Vector(0, 0), 0, 0);
+        _(this, '#').image = new Image();
+        _(this, '#').image.src = urlImage;
         _(this, '+').localePosition = new X.Vector(0, 0);
-        _(this, '+').col = 0;
-        _(this, '+').row = 0;
         
         this.onRender = function(ctx){
-            var _image = _(this, '-').image;
-            var _boundingBox = _(this, '-').boundingBox;
+            var _image = _(this, '#').image;
+            var _boundingBox = _(this, '#').boundingBox;
 
             ctx.drawImage(_image, //image
-                this.col * _boundingBox.w, this.row * _boundingBox.h, //sx, sy
+                0, 0, //sx, sy
                 _boundingBox.w, _boundingBox.h, //swidth, sheight
                 _boundingBox.x, _boundingBox.y, //x, y
                 _boundingBox.w, _boundingBox.h);//width, height
@@ -53,7 +51,7 @@ X.Shape = function () {
     
     X_object.prototype = X.extend(X.Node);
     
-    X_object.prototype.getBoundingBox = function(){ return _(this, '-').boundingBox; };
+    X_object.prototype.getBoundingBox = function(){ return _(this, '#').boundingBox; };
     
     X_object.prototype.drawBoudningBox = false;//static
  

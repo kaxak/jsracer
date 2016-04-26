@@ -43,16 +43,16 @@ X.Scene = function () {
             'assets/textures/sprites/wheel.right.1.png'
         ]));
         
-//        var chrono = this.addChild('chrono', X.new(X.Chrono));
-//        chrono.addCheck(X.new(X.ChronoChecker, [13, 1, 2, 6, tiledRace.getTileSize()]));//devra être un paramètre du circuit
-//        chrono.addCheck(X.new(X.ChronoChecker, [34, 1, 5, 6, tiledRace.getTileSize()]));
-//        chrono.addCheck(X.new(X.ChronoChecker, [34, 10, 5, 4, tiledRace.getTileSize()]));
-//        chrono.addCheck(X.new(X.ChronoChecker, [28, 10, 6, 4, tiledRace.getTileSize()]));
-//        chrono.addCheck(X.new(X.ChronoChecker, [28, 26, 6, 6, tiledRace.getTileSize()]));
-//        chrono.addCheck(X.new(X.ChronoChecker, [22, 26, 6, 6, tiledRace.getTileSize()]));
-//        chrono.addCheck(X.new(X.ChronoChecker, [22, 17, 6, 4, tiledRace.getTileSize()]));
-//        chrono.addCheck(X.new(X.ChronoChecker, [1, 17, 5, 4, tiledRace.getTileSize()]));
-//        chrono.addCheck(X.new(X.ChronoChecker, [1, 1, 5, 6, tiledRace.getTileSize()]));
+        var chrono = this.addChild('chrono', X.new(X.Chrono));
+        chrono.addCheck(X.new(X.ChronoChecker, [13, 1, 2, 6, tiledRace.getTileSize()]));//devra être un paramètre du circuit
+        chrono.addCheck(X.new(X.ChronoChecker, [34, 1, 5, 6, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [34, 10, 5, 4, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [28, 10, 6, 4, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [28, 26, 6, 6, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [22, 26, 6, 6, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [22, 17, 6, 4, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [1, 17, 5, 4, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [1, 1, 5, 6, tiledRace.getTileSize()]));
         
         
     };
