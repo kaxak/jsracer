@@ -17,12 +17,13 @@ include('js/lib/tool/Input.js');
 include('js/lib/tool/Screen.js');
 include('js/lib/tool/Collision.js');
 include('js/lib/ext/howler/howler.js').extension = 'js/lib/ext/howler/howler_ext.js';
+include('js/Animation.js');
 
 X.Car = function () {
     
     var _ = X.class.propertiesGetter();
     
-    var X_object = function(protected, x, y, orientation, boundingBox, urlImageCar, urlImageWheel) {
+    var X_object = function(protected, x, y, orientation, boundingBox, urlImageCar, urlImageWheel_L, urlImageWheel_R) {
         //* Initialise les propriétés
         _(this, protected);
         //* Appel le super contructeur 
@@ -89,27 +90,70 @@ X.Car = function () {
         
         /* Les Roues */
         //* Roues Avants
-        WheelsParams = {offset: 12, wheelbase: 22};
-        this.addChild('roueAVG', X.new(X.Shape, [
+        var WheelsParams = {offset: 12, wheelbase: 22};
+        var animL = X.new( X.Animation, [
+            //sprite
+            urlImageWheel_L,
+            //sequences
+            {
+            idle : { Row: 0, startCol: 0, endCol: 0, interval: 100 },
+            moving : { Row: 0, startCol: 1, endCol: 6, interval: 0.1}
+            },
+            //options
+            {
+                frameW: 7, 
+                frameH: 12
+            }
+        ]);
+        
+        var animR = X.new( X.Animation, [
+            //sprite
+            urlImageWheel_R,
+            //sequences
+            {
+            idle : { Row: 0, startCol: 0, endCol: 0, interval: 100 },
+            moving : { Row: 0, startCol: 1, endCol: 6, interval: 0.1}
+            },
+            //options
+            {
+                frameW: 7, 
+                frameH: 12
+            }
+        ]);
+        
+        var roueAVG = this.addChild('roueAVG', X.new(X.Shape, [
                 -WheelsParams.offset, -WheelsParams.wheelbase,
                 new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
-                urlImageWheel
-        ])).onUpdate = _wheelOnUpdate;
+                urlImageWheel_L
+        ]));
+        roueAVG.onUpdate = function(){
+            _wheelOnUpdate.call(this);
+            if(this.getParent().getVitesse() > 0) {
+                animL.playLoop('moving',  1 * this.getParent().getVitesse());
+            }
+            else {
+                animL.playLoop('idle',  1);
+            }
+            
+        };
+        roueAVG.onRender = function(ctx) {
+            animL.draw(ctx, 0, 0);
+        };
         this.addChild('roueAVD', X.new(X.Shape, [
             WheelsParams.offset, -WheelsParams.wheelbase,
             new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
-            urlImageWheel
+            urlImageWheel_R
         ])).onUpdate = _wheelOnUpdate;
         //* Roues Arrières
         this.addChild('roueARG', X.new(X.Shape, [
                 -WheelsParams.offset, 0,
                 new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
-                urlImageWheel
+                urlImageWheel_L
         ]));
         this.addChild('roueARD', X.new(X.Shape, [
                 WheelsParams.offset, 0,
                 new X.Rect(new X.Vector(-6/2, -12/2), 6, 12),
-                urlImageWheel
+                urlImageWheel_R
         ]));
         
         this.onUpdate = function(){
@@ -222,6 +266,7 @@ X.Car = function () {
     X_object.prototype = X.extend(X.Shape);
     X_object.prototype.getDirection = function(){return _(this, '-').direction;};
     X_object.prototype.getDirectionMAX = function(){return _(this, '-').directionMAX;};
+    X_object.prototype.getVitesse = function() {return _(this, '-').vitesse;};
  
     return X.Car = X_object;
 };

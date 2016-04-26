@@ -25,14 +25,15 @@ X.Shape = function () {
         _(this, '-').image = new Image();
         _(this, '-').image.src = urlImage;
         _(this, '+').localePosition = new X.Vector(0, 0);
-        _(this, '+').index = 0;
+        _(this, '+').col = 0;
+        _(this, '+').row = 0;
         
         this.onRender = function(ctx){
             var _image = _(this, '-').image;
             var _boundingBox = _(this, '-').boundingBox;
 
             ctx.drawImage(_image, //image
-                this.index * _boundingBox.w, 0, //sx, sy
+                this.col * _boundingBox.w, this.row * _boundingBox.h, //sx, sy
                 _boundingBox.w, _boundingBox.h, //swidth, sheight
                 _boundingBox.x, _boundingBox.y, //x, y
                 _boundingBox.w, _boundingBox.h);//width, height
