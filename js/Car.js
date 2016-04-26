@@ -114,7 +114,7 @@ X.Car = function () {
         
         this.onUpdate = function(){
             //* Met à jour le chronomètre GUI à chaque tic du timer
-            if(_(this, '-').timerGui.test() && _(this, '-').timeZero !== null){
+            if(_(this, '-').timerGui.isElapsed() && _(this, '-').timeZero !== null){
                 X.GUI.speed.setText(_(this, '-').vitesse.toFixed(0)+'pixels/s');
             }
             

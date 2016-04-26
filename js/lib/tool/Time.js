@@ -60,8 +60,8 @@ X.Timer = function(milliseconds, once){
     var _lastExec = +new Date();
     var _step = milliseconds;
     
-    this.test = function(){
-        var now = +new Date();
+    this.isElapsed = function(){
+        var now = +new Date();//passé par getelaspedtime
         var current = now - _lastExec;
         if(current > _step){
             _lastExec = now - current + _step;
