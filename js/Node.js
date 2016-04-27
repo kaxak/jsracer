@@ -21,7 +21,6 @@ X.Node = function () {
         
         //* Propriétés
         _(this, '#').name = 'root';
-        _(this, '+').name = 'root';
         _(this, '#').parent = null;
         _(this, '#').childs = {};
         _(this, '+').position = position || new X.Vector(0, 0);
@@ -55,7 +54,6 @@ X.Node = function () {
 //                node.setParent(this);
                 _(node, '#').parent = this;
                 _(node, '#').name = name;
-                _(node, '+').name = name;
 //                node.name = name;
 
                 _childs[name] = node;
@@ -138,7 +136,6 @@ X.Node = function () {
     
     /**
     * Retourne la position globale depuis le node racine
-    * @param {node} node : node dont on veut la position globale
     * @returns {Vector} globalPosition : position globale du node
     */
     Node.prototype.getGlobalPosition = function(){

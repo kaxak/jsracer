@@ -22,11 +22,11 @@ X.SceneManager = function () {
         
     };
     
-    X_object.prototype.loadScene = function(scene){
+    X_object.prototype.loadScene = function(sceneFile){
         _(this, '-').scene = X.new(X.Scene);
     };
     
-    X_object.prototype.update = function(ctx){
+    X_object.prototype.update = function(){
         //* Dessine le jeu
         _(this, '-').scene.update();
     };

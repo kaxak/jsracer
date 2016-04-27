@@ -13,6 +13,8 @@ include('js/Node.js');
 
 include('js/lib/tool/Collision.js');
 include('js/lib/tool/GUI.js');
+include('js/lib/tool/Time.js');
+include('js/lib/tool/Timer.js');
 
 X.ChronoChecker = function () {
     

@@ -18,7 +18,7 @@ Math.PIO2 = Math.PI / 2;
  * 
  * @param {type} canvas : id du canvas dans lequel le jeu sera rendu.
  */
-X.Game = function (canvas, gui) {
+X.Game = function (canvas) {
     var _canvas;
     var _ctx;
     var _sceneMgr;

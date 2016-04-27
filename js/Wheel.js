@@ -23,8 +23,8 @@ X.Wheel = function () {
         /* Propriétés */
         _(this, '-').directional = directional;
         _(this, '#').sequences = {
-            idle : { Row: 0, startCol: 0, endCol: 0, interval: 1000 },
-            moving : { Row: 0, startCol: 1, endCol: 6, interval: 1000}
+            idle : { Row: 0, startCol: 0, endCol: 0, interval: 10 },
+            moving : { Row: 0, startCol: 1, endCol: 6, interval: 10}
         };
         
         this.onUpdate = function(){
@@ -34,7 +34,7 @@ X.Wheel = function () {
                     this.getParent().getDirectionMAX()));
             
             if(this.getParent().getVitesse() > 1) {
-                this.playLoop('moving',  0.5 * this.getParent().getVitesse());
+                this.playLoop('moving',  3 * this.getParent().getVitesse());
             }
             else {
                 this.playLoop('idle',  1);

@@ -28,14 +28,13 @@ X.Time = new function() {
     };
     
     this.update = function(timeStamp) {
-//        var now = +new Date();
-        _delta = (timeStamp - _lastTime)/1000;//en seconde
+        timeStamp /= 1000;
+        _delta = timeStamp - _lastTime;//en seconde
         _lastTime = timeStamp;
-        return _delta;
     };
     
     this.getElapseTime = function() {
-        var timeElapsed = +new Date() - _start ;
+        var timeElapsed = _lastTime - _start ;
         _compteur = timeElapsed;
         return _compteur;
     };
@@ -55,18 +54,3 @@ X.Time = new function() {
     /* Initialisation (contructor) */  
     _start = +new Date();
 }();
-
-X.Timer = function(milliseconds, once){
-    var _lastExec = +new Date();
-    var _step = milliseconds;
-    
-    this.isElapsed = function(){
-        var now = +new Date();
-        var current = now - _lastExec;
-        if(current > _step){
-            _lastExec = now - current + _step;
-            return true;
-        }
-        return false;
-    };
-};

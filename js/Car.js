@@ -14,6 +14,8 @@ include('js/Rect.js');
 include('js/lib/tool/Input.js');
 include('js/lib/tool/Screen.js');
 include('js/lib/tool/Collision.js');
+include('js/lib/tool/Time.js');
+include('js/lib/tool/Timer.js');
 include('js/lib/ext/howler/howler.js').extension = 'js/lib/ext/howler/howler_ext.js';
 include('js/Wheel.js');
 
@@ -45,6 +47,7 @@ X.Car = function () {
         
         _(this, '-').force = 0;
         _(this, '-').vitesse = 0;
+        _(this, '-').grip = 1;
         
         _(this, '-').timerGui = new X.Timer(64);
         
@@ -148,6 +151,7 @@ X.Car = function () {
                 var x = _(this, '-').vitesse;
                 var z = _getMaxSpeed.call(this)*1.27;//vitesse max * 1 -> va tout droit
                 var co = x-(x*x)/z;
+                //var co = (x-(x*x)/vmax) / (1/_(this, '-').grip);
                 var o = _(this, '-').direction * co * X.Time.getDelta()*0.001;
                 this.setOrientation(this.orientation + o);
             }
