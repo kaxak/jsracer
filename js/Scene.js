@@ -13,7 +13,6 @@ include('js/Car.js');
 include('js/Shape.js');
 include('js/Rect.js');
 include('js/Vector.js');
-include('js/Tile.js');
 include('js/TileMap.js');
 include('js/Chrono.js');
 
@@ -33,7 +32,7 @@ X.Scene = function () {
         X.Node.apply(this, [protected, new X.Vector(0, 0), 0, new X.Vector(1, 1)]);
         
         var tiledRace = this.addChild('circuit', 
-            X.new(X.TileMap, [32, 'assets/textures/tiles/TileSet2.png']));
+            X.new(X.TileMap, [Maps.course1]));
         
         this.addChild('car_player', X.new(X.Car,[
             4*32, 4*32,
@@ -45,13 +44,13 @@ X.Scene = function () {
         ]));
         
         var chrono = this.addChild('chrono', X.new(X.Chrono));
-        chrono.addCheck(X.new(X.ChronoChecker, [13, 1, 2, 6, tiledRace.getTileSize()]));
-        chrono.addCheck(X.new(X.ChronoChecker, [15, 1, 19, 6, tiledRace.getTileSize()]));
-        chrono.addCheck(X.new(X.ChronoChecker, [34, 1, 5, 6, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [13, 2, 2, 5, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [15, 2, 19, 5, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [34, 2, 5, 5, tiledRace.getTileSize()]));
         chrono.addCheck(X.new(X.ChronoChecker, [34, 7, 5, 3, tiledRace.getTileSize()]));
-        chrono.addCheck(X.new(X.ChronoChecker, [34, 10, 5, 4, tiledRace.getTileSize()]));
-        chrono.addCheck(X.new(X.ChronoChecker, [28, 10, 6, 4, tiledRace.getTileSize()]));
-        chrono.addCheck(X.new(X.ChronoChecker, [28, 14, 6, 12, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [34, 10, 5, 5, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [28, 10, 6, 5, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [28, 15, 6, 11, tiledRace.getTileSize()]));
         chrono.addCheck(X.new(X.ChronoChecker, [28, 26, 6, 6, tiledRace.getTileSize()]));
         chrono.addCheck(X.new(X.ChronoChecker, [22, 26, 6, 6, tiledRace.getTileSize()]));
         chrono.addCheck(X.new(X.ChronoChecker, [22, 21, 6, 5, tiledRace.getTileSize()]));
@@ -59,8 +58,8 @@ X.Scene = function () {
         chrono.addCheck(X.new(X.ChronoChecker, [6, 17, 16, 4, tiledRace.getTileSize()]));
         chrono.addCheck(X.new(X.ChronoChecker, [1, 17, 5, 4, tiledRace.getTileSize()]));
         chrono.addCheck(X.new(X.ChronoChecker, [1, 7, 5, 10, tiledRace.getTileSize()]));
-        chrono.addCheck(X.new(X.ChronoChecker, [1, 1, 5, 6, tiledRace.getTileSize()]));
-        chrono.addCheck(X.new(X.ChronoChecker, [6, 1, 7, 6, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [1, 2, 5, 5, tiledRace.getTileSize()]));
+        chrono.addCheck(X.new(X.ChronoChecker, [6, 2, 7, 5, tiledRace.getTileSize()]));
         
 
         X.eventManager.addEventListener("chrono-end-lap", function(){console.log("fin du tour");});
