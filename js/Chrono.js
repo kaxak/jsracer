@@ -48,7 +48,7 @@ X.ChronoChecker = function () {
         };
         
     };
-    //var ctor = X.class.get(X.Node);
+    
     ChronoChecker.prototype = X.extend(X.Node);
     
     ChronoChecker.prototype.getBoundingBox = function(){
@@ -132,7 +132,7 @@ X.Chrono = function () {
     var chronoStart = function(){
         _(this, '-').state = 1;
         this.reset();
-        _(this, '-').timeZero = +new Date();
+        _(this, '-').timeZero = X.Time.getLastTime();
         
         //* Cache le hint de dépard si besoin
         if(!_(this, '-').isHintHidden){
@@ -142,7 +142,7 @@ X.Chrono = function () {
     };
     
     var getTime = function(){
-        return +new Date() - _(this, '-').timeZero;
+        return X.Time.getLastTime() - _(this, '-').timeZero;
     };
     
     var chronoEnd = function(){
@@ -169,13 +169,13 @@ X.Chrono = function () {
         var totalPenality = 0;
         while( i > 0 && !current.isDone){
             current.isDone = true;
-            totalPenality += 1000;
+            totalPenality += 1;
             --i;
             current = _childs['chronoCheck'+i];
         }
         if(totalPenality > 0){
             X.GUI.hint.setText(
-                    'Pénalité pour avoir coupé : +'+(totalPenality/1000)+'secondes!',
+                    'Pénalité pour avoir coupé : +'+(totalPenality)+'secondes!',
                     'red'
             );
             X.GUI.hint.show(2000);

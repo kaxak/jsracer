@@ -1,5 +1,5 @@
 /*
-Created : 
+Created : 26/04/2016
 Authors : ROCHE Emmanuel, GINOT Gilles
 Description :
     
@@ -24,24 +24,19 @@ X.Animation = function() {
         
         _(this, '-').col = 0;
         _(this, '-').row = 0;
-        _(this, '-').tickCount = 0;
-        _(this, '-').SequenceTimeStart = X.Time.getLastTime();
+        _(this, '-').sequenceTimeStart = X.Time.getLastTime();
         _(this, '#').sequences = sequences;
         _(this, '-').reverse = false;
         _(this, '-').endSequence = false;
         _(this, '-').currentSequence = '';
-        _(this, '-').currentInterval = 0;
         _(this, '-').rate = 1.0;
         
         this.onRender = function(ctx){
             var _image = _(this, '#').image;
             var _boundingBox = _(this, '#').boundingBox;
 
-            var sx = _(this, '-').col * _boundingBox.w;
-            var sy = _(this, '-').row * _boundingBox.h;
             ctx.drawImage(_image, //image
-                //_(this, '-').col * _boundingBox.w, _(this, '-').row * _boundingBox.h, //sx, sy
-                sx,sy,
+                _(this, '-').col * _boundingBox.w, _(this, '-').row * _boundingBox.h, //sx, sy
                 _boundingBox.w, _boundingBox.h, //swidth, sheight
                 _boundingBox.x, _boundingBox.y, //x, y
                 _boundingBox.w, _boundingBox.h);//width, height
@@ -61,13 +56,13 @@ X.Animation = function() {
     /* Methodes */
     
     /* Private Methodes */
-    var initSequence = function(Name) {
+    var initSequence = function(name) {
         
         _(this, '-').endSequence = false;
         
-        if(typeof _(this, '-').currentSequence === undefined || _(this, '-').currentSequence !== Name) {
-                _(this, '-').SequenceTimeStart = X.Time.getLastTime();
-                _(this, '-').currentSequence = Name;
+        if(typeof _(this, '-').currentSequence === undefined || _(this, '-').currentSequence !== name) {
+                _(this, '-').sequenceTimeStart = X.Time.getLastTime();
+                _(this, '-').currentSequence = name;
         }
         
     };
@@ -75,15 +70,11 @@ X.Animation = function() {
     var startSequence = function() {
         var _sequence = _(this, '#').sequences[_(this, '-').currentSequence];
         
-        if(_(this, '-').SequenceTimeStart === X.Time.getLastTime()) { 
+        if(_(this, '-').sequenceTimeStart === X.Time.getLastTime()) { 
             _(this, '-').col = _sequence.startCol;
             _(this, '-').row = _sequence.Row;
         }
     };
-    
-    /*var rebootTickCount = function() {
-        _(this, '-').tickCount = 0;
-    };*/
     
     var calculateFrame = function() {
         
@@ -108,7 +99,7 @@ X.Animation = function() {
     var calculateFrameIntervalFix = function() {
         var _sequence = _(this, '#').sequences[ _(this, '-').currentSequence];
         
-        var timeElapsed = (X.Time.getLastTime() - _(this, '-').SequenceTimeStart);
+        var timeElapsed = (X.Time.getLastTime() - _(this, '-').sequenceTimeStart);
         var realInterval = _sequence.interval / _(this, '-').rate;
         var _index = Math.floor(timeElapsed / realInterval) + _sequence.startCol;
         
@@ -121,40 +112,40 @@ X.Animation = function() {
         }
     };
     
-    var resetSequence = function(Name) {
-      _(this, '-').SequenceTimeStart = X.Time.getLastTime();
+    var resetSequence = function() {
+      _(this, '-').sequenceTimeStart = X.Time.getLastTime();
     };
     
     var stopSequence = function() {
         _(this, '-').endSequence = true;
     };
     
-    var playSequence = function(Name, loop, rate) {
+    var playSequence = function(name, loop, rate) {
         if(rate) _(this, '-').rate = rate;
         
-        initSequence.call(this, Name);
+        initSequence.call(this, name);
         
         startSequence.call(this);
         
         calculateFrame.call(this);
         
         if(_(this, '-').endSequence){
-            resetSequence.call(this, Name);
+            resetSequence.call(this, name);
         }
     };
     
     X_object.prototype = X.extend(X.Shape);
     
     /* Public Methodes */
-    X_object.prototype.play = function(Name, rate) {
+    X_object.prototype.play = function(name, rate) {
         
-        playSequence.call(this, Name, false, rate);
+        playSequence.call(this, name, false, rate);
         
     };
     
-    X_object.prototype.playLoop = function(Name, rate) {
+    X_object.prototype.playLoop = function(name, rate) {
         
-        playSequence.call(this, Name, true, rate);
+        playSequence.call(this, name, true, rate);
         
     };
     

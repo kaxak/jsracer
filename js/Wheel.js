@@ -14,21 +14,21 @@ X.Wheel = function () {
     
     var _ = X.class.propertiesGetter();
     
-    var X_object = function(protected, x, y, boundingBox, urlImage, directional) {
+    var X_object = function(protected, x, y, boundingBox, urlImage, isDirectional) {
         //* Initialise les propriétés
         _(this, protected);
         //* Appel le super contructeur 
         X.Animation.apply(this, [protected, x, y, boundingBox, urlImage, {}]);
         
         /* Propriétés */
-        _(this, '-').directional = directional;
+        _(this, '-').isDirectional = isDirectional;
         _(this, '#').sequences = {
             idle : { Row: 0, startCol: 0, endCol: 0, interval: 10 },
             moving : { Row: 0, startCol: 1, endCol: 6, interval: 10}
         };
         
         this.onUpdate = function(){
-            if(_(this, '-').directional)
+            if(_(this, '-').isDirectional)
                 this.setOrientation(
                     Math.PI/6 * (this.getParent().getDirection() / 
                     this.getParent().getDirectionMAX()));

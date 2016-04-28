@@ -39,7 +39,8 @@ X.Time = new function() {
         return _compteur;
     };
     
-    this.format = function (milli) {
+    this.format = function (seconde) {
+        var milli = seconde * 1000;
         var seconds = Math.floor((milli / 1000) % 60);
         var minutes = Math.floor((milli / (60 * 1000)) % 60);
 
