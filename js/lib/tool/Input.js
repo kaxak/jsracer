@@ -175,7 +175,6 @@ X.Input = new function() {
             switch (key) {
                 case 'A':
                     return 0;
-                    break;
                 case 'B':
                     return 1;
                 case 'X':

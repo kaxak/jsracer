@@ -38,7 +38,7 @@ X.Vector.prototype.Divide = function(nombre){
     return new X.Vector(this.x * nombre, this.y * nombre);
 };
 
-X.Vector.prototype.Reverse = function(nombre){
+X.Vector.prototype.Reverse = function(){
     return new X.Vector(-this.x, -this.y);
 };
 

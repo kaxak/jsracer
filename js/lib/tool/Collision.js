@@ -13,7 +13,7 @@ http://xnatd.blogspot.fr/2012/05/2d-collision-series-sat-part-1.html
 include('js/Vector.js');
 include('js/Rect.js');
 
-X.Collision = function() {
+X.Collision = new function() {
     this.dotInAABB = function(X_Vector_Dot, X_Rect_AAB){
         if(!(X_Vector_Dot instanceof X.Vector && X_Rect_AAB instanceof X.Rect)){
             throw new Error('X.Collision.dotInAABB: Bad arguments passed!');
@@ -49,6 +49,4 @@ X.Collision = function() {
 //        };
     
     
-};
-
-X.Collision = new X.Collision();
+}();

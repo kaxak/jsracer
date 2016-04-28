@@ -10,11 +10,10 @@ TODO:
 
 include('js/Vector.js');
 include('js/Node.js');
+include('js/Timer.js');
 
 include('js/lib/tool/Collision.js');
-include('js/lib/tool/GUI.js');
 include('js/lib/tool/Time.js');
-include('js/lib/tool/Timer.js');
 
 X.ChronoChecker = function () {
     
@@ -84,7 +83,7 @@ X.Chrono = function () {
         _(this, '-').bestTime = null;
         _(this, '-').checkerCount = 0;
         
-        _(this, '-').timerGui = new X.Timer(64);
+        _(this, '-').timerGui = new X.Timer(30);
         _(this, '-').isHintHidden = false;
         
         var e_chronoEndLap = new CustomEvent("chrono-end-lap", {});
@@ -106,7 +105,7 @@ X.Chrono = function () {
                         if(_(this, '-').state === 0 || _(this, '-').state === 2){
                             if(_(this, '-').state !== 0){
                                 chronoEnd.call(this);
-                                X.eventManager.dispatchEvent(e_chronoEndLap);
+//                                X.eventManager.dispatchEvent(e_chronoEndLap);
                             }
                             chronoStart.call(this);
                         }

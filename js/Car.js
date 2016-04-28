@@ -11,11 +11,12 @@ include('js/Node.js');
 include('js/Shape.js');
 include('js/Vector.js');
 include('js/Rect.js');
+include('js/Timer.js');
+
 include('js/lib/tool/Input.js');
 include('js/lib/tool/Screen.js');
 include('js/lib/tool/Collision.js');
 include('js/lib/tool/Time.js');
-include('js/lib/tool/Timer.js');
 include('js/lib/ext/howler/howler.js').extension = 'js/lib/ext/howler/howler_ext.js';
 include('js/Wheel.js');
 

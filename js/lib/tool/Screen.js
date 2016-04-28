@@ -10,10 +10,10 @@ Description :
 /* 
 
 */
-X.Screen = function(){
+X.Screen = new function(){
     /* Properties */
-    this.width;
-    this.height;
+    this.width = 0;
+    this.height = 0;
     
     /* Méthodes */
     this.InitFromCanvas = function(canvas){
@@ -25,14 +25,4 @@ X.Screen = function(){
             console.log('[Error} Screen:InitFromCanvas(canvas): parameter canvas is not recognized');
         }
     };
-    
-    /* Accessors */
-    
-    
-    /* Initialisation (contructor) */
-    this.width = 0;
-    this.height = 0;
-    
-};
-
-X.Screen = new X.Screen();//* Singleton
+}();
