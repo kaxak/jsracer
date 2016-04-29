@@ -34,7 +34,10 @@ X.Chrono = function () {
         _(this, '-').timerGui = new X.Timer(30);
         _(this, '-').isHintHidden = false;
         
-        var e_chronoEndLap = new CustomEvent("chrono-end-lap", {});
+        
+        _(this, '-').events = {};
+        _(this, '-').events.chronoEndLap = new CustomEvent("chrono-end-lap", {});
+        _(this, '-').events.chronoBestLap = new CustomEvent("chrono-best-lap", {});
         
         this.onUpdate = function(){
             //* Met à jour le chronomètre GUI à chaque tic du timer
@@ -53,7 +56,7 @@ X.Chrono = function () {
                         if(_(this, '-').state === 0 || _(this, '-').state === 2){
                             if(_(this, '-').state !== 0){
                                 chronoEnd.call(this);
-//                                X.eventManager.dispatchEvent(e_chronoEndLap);
+                                X.eventManager.dispatchEvent(_(this, '-').events.chronoEndLap);
                             }
                             chronoStart.call(this);
                         }
@@ -98,6 +101,7 @@ X.Chrono = function () {
         var formatedTime = X.Time.format(time);
         X.GUI.lastTime.setText('Dernier temps<br />' + formatedTime);
         if(_(this, '-').bestTime === null || _(this, '-').bestTime > time){
+            X.eventManager.dispatchEvent(_(this, '-').events.chronoBestLap);
             X.GUI.bestTime.setText('Meilleur temps<br />' + formatedTime);
             X.GUI.hint.setText(
                     'Record battu : +'+formatedTime,

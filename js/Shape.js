@@ -24,18 +24,21 @@ X.Shape = function () {
         _(this, '#').boundingBox = boundingBox || new X.Rect(new X.Vector(0, 0), 0, 0);
         _(this, '#').image = new Image();
         _(this, '#').image.src = urlImage;
+        _(this, '#').opacity = 1.0;
         _(this, '+').localePosition = new X.Vector(0, 0);
         
         this.onRender = function(ctx){
             var _image = _(this, '#').image;
             var _boundingBox = _(this, '#').boundingBox;
-
+            ctx.globalAlpha = _(this, '#').opacity;
             ctx.drawImage(_image, //image
                 0, 0, //sx, sy
                 _boundingBox.w, _boundingBox.h, //swidth, sheight
                 _boundingBox.x, _boundingBox.y, //x, y
                 _boundingBox.w, _boundingBox.h);//width, height
 
+            ctx.globalAlpha = 1;
+            
             if(X.Shape.drawBoudningBox){
                 ctx.strokeStyle = 'rgba(255,0,0,1.0)';
                 ctx.lineWidth = 1;
@@ -54,6 +57,16 @@ X.Shape = function () {
     X_object.prototype.getBoundingBox = function(){ return _(this, '#').boundingBox; };
     
     X_object.prototype.drawBoudningBox = false;//static
+    
+    X_object.prototype.getOpacity = function(){
+        return _(this, '#').opacity;
+    };
+    
+    X_object.prototype.setOpacity = function(value){
+        if(value > 1) _(this, '#').opacity = 1;
+        else if(value < 0) _(this, '#').opacity = 0;
+        else _(this, '#').opacity = value;
+    };
  
     return X.Shape = X_object;
 };

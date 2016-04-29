@@ -14,10 +14,14 @@ X.Timer = function(milliseconds){
     this.isElapsed = function(){
         var now = X.Time.getLastTime();
         var current = now - _lastExec;
-        if(current > _step){
+        if(current >= _step){
             _lastExec = now - current + _step;
             return true;
         }
         return false;
+    };
+    
+    this.reset = function(){
+        _lastExec = X.Time.getLastTime();
     };
 };
