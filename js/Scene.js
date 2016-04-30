@@ -61,8 +61,7 @@ X.Scene = function () {
         chrono.addCheck(X.new(X.ChronoChecker, [1, 2, 5, 5, tiledRace.getTileSize()]));
         chrono.addCheck(X.new(X.ChronoChecker, [6, 2, 7, 5, tiledRace.getTileSize()]));
         
-
-        X.eventManager.addEventListener("chrono-end-lap", function(){console.log("fin du tour");});
+        chrono.addEventListener('EndLap', function(){console.log("fin du tour");});
     };
     
     X_object.prototype = X.extend(X.Node);

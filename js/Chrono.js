@@ -31,13 +31,15 @@ X.Chrono = function () {
         _(this, '-').bestTime = null;
         _(this, '-').checkerCount = 0;
         
-        _(this, '-').timerGui = new X.Timer(30);
+        _(this, '-').timerGui = new X.Timer(30, true);
+        _(this, '-').timerGui.start();
         _(this, '-').isHintHidden = false;
         
         
-        _(this, '-').events = {};
-        _(this, '-').events.chronoEndLap = new CustomEvent("chrono-end-lap", {});
-        _(this, '-').events.chronoBestLap = new CustomEvent("chrono-best-lap", {});
+        _(this, '-').listeners = {
+                EndLap:[],
+                BestLap:[]
+        };
         
         this.onUpdate = function(){
             //* Met à jour le chronomètre GUI à chaque tic du timer
@@ -56,7 +58,7 @@ X.Chrono = function () {
                         if(_(this, '-').state === 0 || _(this, '-').state === 2){
                             if(_(this, '-').state !== 0){
                                 chronoEnd.call(this);
-                                X.eventManager.dispatchEvent(_(this, '-').events.chronoEndLap);
+                                sendEvents.call(this, 'EndLap');
                             }
                             chronoStart.call(this);
                         }
@@ -101,7 +103,8 @@ X.Chrono = function () {
         var formatedTime = X.Time.format(time);
         X.GUI.lastTime.setText('Dernier temps<br />' + formatedTime);
         if(_(this, '-').bestTime === null || _(this, '-').bestTime > time){
-            X.eventManager.dispatchEvent(_(this, '-').events.chronoBestLap);
+            sendEvents.call(this, 'BestLap');
+
             X.GUI.bestTime.setText('Meilleur temps<br />' + formatedTime);
             X.GUI.hint.setText(
                     'Record battu : +'+formatedTime,
@@ -134,6 +137,15 @@ X.Chrono = function () {
         }
     };
     
+    var sendEvents = function(eventType){
+        // console.log(_(this, '-').listeners[eventType])
+        _(this, '-').listeners[eventType].forEach(function(e, i, a){
+            //e();
+            e.callback.call(e.object);
+        });
+        
+    };
+    
     Chrono.prototype = X.extend(X.Node);
     
     Chrono.prototype.addCheck = function(chronoChecker){
@@ -150,6 +162,24 @@ X.Chrono = function () {
         for(var key in _childs){
             _childs[key].isDone = false;
         }
+    };
+    
+    Chrono.prototype.addEventListener = function(eventType, callback, listener){
+        listener = listener || {};
+        //* Si l'évènnement existe
+        if(Object.keys(_(this, '-').listeners).includes(eventType)){
+            //* Si le callback est bien une fonction
+            if(callback || typeof callback === 'function'){
+                _(this, '-').listeners[eventType].push({object:listener, callback:callback});
+            }
+            else{
+                throw new Error('X.Chrono.addEventListener: callBack argument is not a function!');
+            }
+        }
+        else{
+            throw new Error('X.Chrono.addEventListener: eventType : '+eventType+' not found!');
+        }
+        
     };
     
     
