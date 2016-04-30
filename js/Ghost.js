@@ -42,7 +42,7 @@ X.Ghost = function () {
             
             if(_(this, '-').timer.isElapsed()) {
                 _recordGhost.call(this);
-                ;
+                
             }
             
             if(_(this, '-').ghostTempInstance[10]) {
