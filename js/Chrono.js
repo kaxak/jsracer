@@ -31,7 +31,8 @@ X.Chrono = function () {
         _(this, '-').bestTime = null;
         _(this, '-').checkerCount = 0;
         
-        _(this, '-').timerGui = new X.Timer(30);
+        _(this, '-').timerGui = new X.Timer(30, true);
+        _(this, '-').timerGui.start();
         _(this, '-').isHintHidden = false;
         
         
