@@ -65,6 +65,12 @@ X.Vector.prototype.Normale = function(){
     return new X.Vector(this.y, -this.x);
 };
 
+X.Vector.prototype.Rotate = function(angle){
+    return new X.Vector(
+            this.x * Math.cos(angle) - this.y *Math.sin(angle), //x
+            this.x *Math.sin(angle) + this.y * Math.cos(angle));//y
+};
+
 X.Vector.prototype.toString = function(round){
     round = round | 8;
     return 'x='+this.x.toFixed(round)+', y='+this.y.toFixed(round);
@@ -121,7 +127,8 @@ X.Vector.Tools.FromAngle = function(angle){
 };
 
 X.Vector.Tools.ToAngle = function(vector){
-    return Math.acos(X.Vector.Params.top.Scalar(vector));
+    //return Math.acos(X.Vector.Params.top.Scalar(vector));
+    return Math.atan2(vector.x, vector.y);
 };
 
  

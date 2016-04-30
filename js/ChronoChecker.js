@@ -54,7 +54,7 @@ X.ChronoChecker = function () {
         return _(this, '-').boundingBox;
     };
     ChronoChecker.prototype.getBoxCollider = function(){
-        return new X.Rect(this.getGlobalPosition(), _(this, '-').boundingBox.w, _(this, '-').boundingBox.h);
+        return new X.Rect(this.gposition, _(this, '-').boundingBox.w, _(this, '-').boundingBox.h);
     };
     
     /* Static */

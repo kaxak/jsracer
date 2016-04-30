@@ -26,6 +26,9 @@ X.Node = function () {
         _(this, '+').position = position || new X.Vector(0, 0);
         _(this, '+').orientation = orientation || 0;
         _(this, '+').scale = scale || new X.Vector(1, 1);
+        _(this, '+').gposition = _(this, '+').position;
+        _(this, '+').gorientation = _(this, '+').orientation;
+        _(this, '+').gscale = _(this, '+').scale;
         
         /**
          * Méthode virtuelle qu'il faudrat surcharger dans les objet enfants.
@@ -109,6 +112,14 @@ X.Node = function () {
     Node.prototype.update = function(){
         this.onUpdate();
 
+        if(_(this, '#').parent !== null){
+            _(this, '+').gposition = _(this, '#').parent.gposition.Add(
+                    _(this, '+').position.Rotate(_(this, '#').parent.orientation));
+            _(this, '+').gorientation = _(this, '#').parent.gorientation + _(this, '+').orientation;
+            _(this, '+').gscale.x = _(this, '#').parent.gscale.x * _(this, '+').scale.x;
+            _(this, '+').gscale.y = _(this, '#').parent.gscale.y * _(this, '+').scale.y;
+        }
+
         var _childs = _(this, '#').childs;
         for(var key in _childs){
             _childs[key].update();
@@ -132,22 +143,6 @@ X.Node = function () {
     
     Node.prototype.getPosition = function(){
         return _(this, '+').position;
-    };
-    
-    /**
-    * Retourne la position globale depuis le node racine
-    * @returns {Vector} globalPosition : position globale du node
-    */
-    Node.prototype.getGlobalPosition = function(){
-        var globalPosition = this.getPosition();
-        var actualNode = this;
-        
-        while(actualNode.getParent() !== null){
-            actualNode = actualNode.getParent();
-            globalPosition = globalPosition.Add(actualNode.getPosition());
-        }
-        
-        return globalPosition;
     };
     
     Node.prototype.getOrientation = function(){
