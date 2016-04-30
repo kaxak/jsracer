@@ -33,7 +33,8 @@ X.Ghost = function () {
         _(this, '-').ghostTempInstance = [];
         _(this, '-').targetCar = carPlayer;
         _(this, '-').isPlayingGhost = false;
-        _(this, '-').timer = new X.Timer(1000);
+        _(this, '-').timer = new X.Timer(50);
+        _(this, '-').playerTick = 0;
         
         _(this, '#').opacity = 0.6;
         
@@ -41,29 +42,25 @@ X.Ghost = function () {
             
             
             if(_(this, '-').timer.isElapsed()) {
+                console.log(_(this, '-').playerTick);
                 _recordGhost.call(this);
+                
+                if(_(this, '-').ghostInstance) {
+                    var ghost = JSON.parse(_(this, '-').ghostInstance);
+                    if(_(this, '-').playerTick <= ghost.length - 1) {
+                        
+                        this.position = ghost[_(this, '-').playerTick].position;
+                        this.orientation = ghost[_(this, '-').playerTick].orientation;
+                        _(this, '-').playerTick++;
+                    }
+                    
+                    
+                
+                } 
                 
             }
             
-            if(_(this, '-').ghostTempInstance[10]) {
-                console.log(_(this, '-').ghostTempInstance[10].position.x);
-            }
-            
-            
-            
         };
-        
-        X.eventManager.addEventListener("chrono-best-lap", function(){
-            
-            _createNewGhost.call(this);
-
-        });
-        
-        X.eventManager.addEventListener("chrono-end-lap", function(){
-            
-            _deleteGhostFrames.call(this);
-
-        });    
 
     };
     
@@ -75,7 +72,7 @@ X.Ghost = function () {
     };
     
     var _createNewGhost = function() {
-        _(this, '-').ghostInstance = _(this, '-').ghostTempInstance;
+        _(this, '-').ghostInstance = JSON.stringify(_(this, '-').ghostTempInstance);
     };
     
     var _deleteGhostFrames = function() {
@@ -86,6 +83,24 @@ X.Ghost = function () {
     
     X_object.prototype = X.extend(X.Car);
     
+    X_object.prototype.onStart = function() {
+        _(this, '-').timer.reset;
+        _deleteGhostFrames.call(this);
+    };
+    
+    
+    X_object.prototype.onChronoBestLap = function() {
+        _createNewGhost.call(this);
+        //console.log('new ghost !');
+    };
+    
+    X_object.prototype.onChronoEndLap = function() {
+        //console.log(_(this, '-').ghostTempInstance.length+' dans le ghost temp');
+        //console.log(_(this, '-').ghostInstance.length+' dans le ghost');
+        _deleteGhostFrames.call(this);
+        _(this, '-').timer.reset;
+        _(this, '-').playerTick = 0;
+    };
  
     return X.Ghost = X_object;
 };

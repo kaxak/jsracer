@@ -50,8 +50,7 @@ X.Car = function () {
         _(this, '-').speed = 0;
         _(this, '-').grip = 1;
         
-        _(this, '-').timerGui = new X.Timer(30, true);
-        _(this, '-').timerGui.start();
+        _(this, '-').timerGui = new X.Timer(64);
         
         _(this, '-').binds = {};
         _(this, '-').binds.accelerator = {

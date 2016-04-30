@@ -10,6 +10,7 @@ Description :
 
 include('js/Node.js');
 include('js/Car.js');
+include('js/Ghost.js')
 include('js/Shape.js');
 include('js/Rect.js');
 include('js/Vector.js');
@@ -34,13 +35,23 @@ X.Scene = function () {
         var tiledRace = this.addChild('circuit', 
             X.new(X.TileMap, [Maps.course1]));
         
-        this.addChild('car_player', X.new(X.Car,[
-            4*32, 4*32,
+        var carPlayer = this.addChild('car_player', X.new(X.Car,[
+           4*32, 4*32,
+           Math.PIO2,
+           new X.Rect(new X.Vector(-20/2, -44/4*3), 20, 44),
+           'assets/textures/sprites/carrosserie.png',
+           'assets/textures/sprites/wheel.left.1.png',
+           'assets/textures/sprites/wheel.right.1.png'
+        ]));
+
+        var ghost = this.addChild('ghost', X.new(X.Ghost,[
+            13*32, 4*32,
             Math.PIO2,
             new X.Rect(new X.Vector(-20/2, -44/4*3), 20, 44),
             'assets/textures/sprites/carrosserie.png',
             'assets/textures/sprites/wheel.left.1.png',
-            'assets/textures/sprites/wheel.right.1.png'
+            'assets/textures/sprites/wheel.right.1.png',
+            carPlayer
         ]));
         
         var chrono = this.addChild('chrono', X.new(X.Chrono));
@@ -61,7 +72,9 @@ X.Scene = function () {
         chrono.addCheck(X.new(X.ChronoChecker, [1, 2, 5, 5, tiledRace.getTileSize()]));
         chrono.addCheck(X.new(X.ChronoChecker, [6, 2, 7, 5, tiledRace.getTileSize()]));
         
-        chrono.addEventListener('EndLap', function(){console.log("fin du tour");});
+        chrono.addEventListener('BestLap', ghost.onChronoBestLap, ghost);
+        chrono.addEventListener('EndLap', ghost.onChronoEndLap, ghost);
+        chrono.addEventListener('FirstLap', ghost.onStart, ghost);
     };
     
     X_object.prototype = X.extend(X.Node);

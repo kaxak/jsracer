@@ -31,14 +31,16 @@ X.Chrono = function () {
         _(this, '-').bestTime = null;
         _(this, '-').checkerCount = 0;
         
-        _(this, '-').timerGui = new X.Timer(30, true);
-        _(this, '-').timerGui.start();
+        _(this, '-').timerGui = new X.Timer(30);
         _(this, '-').isHintHidden = false;
+        
+        _(this, '-').nbLap = 0;
         
         
         _(this, '-').listeners = {
                 EndLap:[],
-                BestLap:[]
+                BestLap:[],
+                FirstLap:[]
         };
         
         this.onUpdate = function(){
@@ -61,6 +63,11 @@ X.Chrono = function () {
                                 sendEvents.call(this, 'EndLap');
                             }
                             chronoStart.call(this);
+                            _(this, '-').nbLap++;
+                            if(_(this, '-').nbLap === 1) {
+                               sendEvents.call(this, 'FirstLap');
+                            }
+                            
                         }
                         else{
                             
