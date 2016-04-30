@@ -258,7 +258,7 @@ X.Car = function () {
             
             
             var o;
-            if(_(this, '-').speed > 5){
+            if(_(this, '-').speed > 1){
                 var x = _(this, '-').speed;
                 var vmax = _getMaxSpeed.call(this)*1.2;//vitesse max * 1 -> va tout droit à fond
                 var co = (x-(x*x)/vmax) / (1/_(this, '-').grip);
