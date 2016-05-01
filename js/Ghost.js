@@ -34,7 +34,7 @@ X.Ghost = function () {
         _(this, '-').playBackTick = 0;
         _(this, '-').outOfBound = new X.Vector(-20,-20);
         
-        var alpha = 0.5;
+        var alpha = 0.2;
         this.setCarOpacity(alpha);
         this.position.set(_(this, '-').outOfBound);
         this.soundsStop();
