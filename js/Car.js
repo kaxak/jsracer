@@ -124,6 +124,7 @@ X.Car = function () {
                 true
         ]));
         
+        
         this.addChild('roueAVD', X.new(X.Wheel, [
                 WheelsParams.offset, -WheelsParams.wheelbase,
                 new X.Rect(new X.Vector(-6/2, -12/2), 7, 12),
@@ -145,6 +146,7 @@ X.Car = function () {
         ]));
         
         this.onUpdate = function(){
+            
             //* Met à jour le chronomètre GUI à chaque tic du timer
             if(_(this, '-').timerGui.isElapsed() && _(this, '-').timeZero !== null){
                 X.GUI.speed.setText(_(this, '-').speed.toFixed(0)+'pixels/s');
@@ -349,7 +351,16 @@ X.Car = function () {
     X_object.prototype.getDirection = function(){return _(this, '-').direction;};
     X_object.prototype.getDirectionMAX = function(){return _(this, '-').directionMAX;};
     X_object.prototype.getVitesse = function() {return _(this, '-').speed;};
-     X_object.prototype.getState = function() {return _(this, '-').state;};
+    X_object.prototype.getState = function() {return _(this, '-').state;};
+    X_object.prototype.soundsPlay = function() { _(this, '-').sounds.engine.play(); };
+    X_object.prototype.soundsStop = function() { _(this, '-').sounds.engine.stop(); };
+    X_object.prototype.setCarOpacity = function(value) {
+        this.opacity = value;
+        this.getChilds().roueAVG.opacity = value;
+        this.getChilds().roueAVD.setOpacity(value);
+        this.getChilds().roueARG.setOpacity(value);
+        this.getChilds().roueARD.setOpacity(value);
+    };
  
     return X.Car = X_object;
 };

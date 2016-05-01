@@ -30,12 +30,14 @@ X.Ghost = function () {
         _(this, '-').ghostInstance = null;
         _(this, '-').ghostTempInstance = [];
         _(this, '-').targetCar = carPlayer;
-        _(this, '-').timer = new X.Timer(50, true);
+        _(this, '-').timer = new X.Timer(16, true);
         _(this, '-').playBackTick = 0;
         _(this, '-').outOfBound = new X.Vector(-20,-20);
         
-        _(this, '#').opacity = 0.5;
-        this.position = _(this, '-').outOfBound;
+        var alpha = 0.5;
+        this.setCarOpacity(alpha);
+        this.position.set(_(this, '-').outOfBound);
+        this.soundsStop();
         
         this.onUpdate = function() {
             
@@ -85,21 +87,22 @@ X.Ghost = function () {
         
         if(_(this, '-').playBackTick <= ghost.length - 1) {
             
-            _(this, '+').position = ghost[_(this, '-').playBackTick].position;
-            _(this, '+').orientation = ghost[_(this, '-').playBackTick].orientation;
+            this.position.set(ghost[_(this, '-').playBackTick].position.x, ghost[_(this, '-').playBackTick].position.y);
+            
+            this.orientation = ghost[_(this, '-').playBackTick].orientation;
             //this.direction = ghost[_(this, '-').playBackTick].direction;
             //this.speed = ghost[_(this, '-').playBackTick].speed;
             
             _(this, '-').playBackTick++;
             
         } 
-        else _(this, '+').position = _(this, '-').outOfBound;
+        else _(this, '+').position.set(_(this, '-').outOfBound);
     };
     
     X_object.prototype = X.extend(X.Car);
     
     X_object.prototype.onStart = function() {
-        
+       
         _(this, '-').timer.start();
         
     };

@@ -41,7 +41,9 @@ X.Wheel = function () {
             }
         };
     };
-    
+    X_object.prototype.setAlpha = function(value) {
+        _(this, '#').opacity = value;
+    };
     X_object.prototype = X.extend(X.Animation);
     
     return X.Wheel = X_object;

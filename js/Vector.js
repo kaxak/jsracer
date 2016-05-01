@@ -112,6 +112,20 @@ X.Vector.prototype.testRebond = function(normal){
     return r;
 };
 
+X.Vector.prototype.set = function(xOvector, y){
+   if(arguments.length === 1 && xOvector instanceof X.Vector){
+       this.x = xOvector.x;
+       this.y = xOvector.y;
+   }
+   else if(arguments.length === 2){
+       this.x = xOvector;
+       this.y = y;
+   }
+   else{
+       throw new Error('X.Vector.set : bad arguments!');
+   }
+};
+
 
 
 /* static paramètres */
