@@ -356,7 +356,7 @@ X.Car = function () {
     X_object.prototype.soundsStop = function() { _(this, '-').sounds.engine.stop(); };
     X_object.prototype.setCarOpacity = function(value) {
         this.opacity = value;
-        this.getChilds().roueAVG.setOpacity(value);
+        this.getChilds().roueAVG.opacity = value;
         this.getChilds().roueAVD.setOpacity(value);
         this.getChilds().roueARG.setOpacity(value);
         this.getChilds().roueARD.setOpacity(value);
