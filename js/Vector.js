@@ -20,6 +20,19 @@ X.Vector = function(x,y){
     this.y = (y)?y:0;
 };
 
+X.Vector.prototype.set = function(xOvector, y){
+    if(arguments.length === 1 && xOvector instanceof X.Vector){
+        this.x = xOvector.x;
+        this.y = xOvector.y;
+    }
+    else if(arguments.length === 2){
+        this.x = xOvector;
+        this.y = y;
+    }
+    else{
+        throw new Error('X.Vector.set : bad arguments!')
+    }
+};
 
 X.Vector.prototype.Add = function(vector){
     return new X.Vector(this.x + vector.x, this.y + vector.y);

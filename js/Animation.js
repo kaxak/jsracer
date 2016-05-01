@@ -35,11 +35,13 @@ X.Animation = function() {
             var _image = _(this, '#').image;
             var _boundingBox = _(this, '#').boundingBox;
 
+            ctx.globalAlpha = _(this, '#').opacity;
             ctx.drawImage(_image, //image
                 _(this, '-').col * _boundingBox.w, _(this, '-').row * _boundingBox.h, //sx, sy
                 _boundingBox.w, _boundingBox.h, //swidth, sheight
                 _boundingBox.x, _boundingBox.y, //x, y
                 _boundingBox.w, _boundingBox.h);//width, height
+            ctx.globalAlpha = 1;
 
             if(X.Shape.drawBoudningBox){
                 ctx.strokeStyle = 'rgba(255,0,0,1.0)';

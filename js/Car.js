@@ -350,7 +350,9 @@ X.Car = function () {
     X_object.prototype.getDirection = function(){return _(this, '-').direction;};
     X_object.prototype.getDirectionMAX = function(){return _(this, '-').directionMAX;};
     X_object.prototype.getVitesse = function() {return _(this, '-').speed;};
-     X_object.prototype.getState = function() {return _(this, '-').state;};
+    X_object.prototype.getState = function() {return _(this, '-').state;};
+    X_object.prototype.soundsPlay = function() { _(this, '-').sounds.engine.play(); };
+    X_object.prototype.soundsStop = function() { _(this, '-').sounds.engine.stop(); };
  
     return X.Car = X_object;
 };
