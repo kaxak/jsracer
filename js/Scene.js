@@ -45,8 +45,6 @@ X.Scene = function () {
         ]));
 
         var ghost = this.addChild('ghost', X.new(X.Ghost,[
-            13*32, 4*32,
-            Math.PIO2,
             new X.Rect(new X.Vector(-20/2, -44/4*3), 20, 44),
             'assets/textures/sprites/carrosserie.png',
             'assets/textures/sprites/wheel.left.1.png',

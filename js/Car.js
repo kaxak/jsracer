@@ -34,9 +34,9 @@ X.Car = function () {
         /* Propriétés */
         
         /* direction */
-        _(this, '-').directionSpeed = 10;
-        _(this, '-').direction = 0;
-        _(this, '-').directionMAX = 20;
+        _(this, '#').directionSpeed = 10;
+        _(this, '#').direction = 0;
+        _(this, '#').directionMAX = 20;
         _(this, '-').state = 0; //0=arret, 1=accelere, 2=freine
         
         _(this, '-').power = 160 * 736;//chevaux * 736 = watt
@@ -47,10 +47,11 @@ X.Car = function () {
         _(this, '-').coef_drag = 0.5 * 1.2 * 3 * 0.3;//Fx = 1/2 * p * S * Cx * V²
         
         _(this, '-').force = 0;
-        _(this, '-').speed = 0;
+        _(this, '#').speed = 0;
         _(this, '-').grip = 1;
         
-        _(this, '-').timerGui = new X.Timer(64);
+        _(this, '-').timerGui = new X.Timer(30, true);
+        _(this, '-').timerGui.start();
         
         _(this, '-').binds = {};
         _(this, '-').binds.accelerator = {
@@ -125,7 +126,7 @@ X.Car = function () {
         this.onUpdate = function(){
             //* Met à jour le chronomètre GUI à chaque tic du timer
             if(_(this, '-').timerGui.isElapsed() && _(this, '-').timeZero !== null){
-                X.GUI.speed.setText(_(this, '-').speed.toFixed(0)+'pixels/s');
+                X.GUI.speed.setText(_(this, '#').speed.toFixed(0)+'pixels/s');
             }
             
             var _binds = _(this, '-').binds;
@@ -144,22 +145,22 @@ X.Car = function () {
             else
             {   _turn.call(this);               }
 
-            _(this, '-').speed += _(this, '-').force / _(this, '-').masse * X.Time.getDelta();
-            _(this, '+').position = _(this, '+').position.Add(direction.Multiply(_(this, '-').speed * X.Time.getDelta()));
+            _(this, '#').speed += _(this, '-').force / _(this, '-').masse * X.Time.getDelta();
+            _(this, '+').position = _(this, '+').position.Add(direction.Multiply(_(this, '#').speed * X.Time.getDelta()));
             
             
-            if(_(this, '-').speed > 8){
-                var x = _(this, '-').speed;
+            if(_(this, '#').speed > 8){
+                var x = _(this, '#').speed;
                 var z = _getMaxSpeed.call(this)*1.27;//vitesse max * 1 -> va tout droit
                 var co = x-(x*x)/z;
                 //var co = (x-(x*x)/vmax) / (1/_(this, '-').grip);
-                var o = _(this, '-').direction * co * X.Time.getDelta()*0.001;
+                var o = _(this, '#').direction * co * X.Time.getDelta()*0.001;
                 this.setOrientation(this.orientation + o);
             }
             
-            _(this, '-').sounds.engine.rate(Math.max(_(this, '-').speed/_getMaxSpeed.call(this)*1.6, 0.28));
-            if(_(this, '-').speed < 0 && (_(this, '-').state === 1 || _(this, '-').state === 2)){
-                _(this, '-').speed = 0;
+            _(this, '-').sounds.engine.rate(Math.max(_(this, '#').speed/_getMaxSpeed.call(this)*1.6, 0.28));
+            if(_(this, '#').speed < 0 && (_(this, '-').state === 1 || _(this, '-').state === 2)){
+                _(this, '#').speed = 0;
                 if(_(this, '-').state === 1)
                     _(this, '-').state = 0;
             }
@@ -178,10 +179,10 @@ X.Car = function () {
     };
     
     var _getDragForce = function(){
-        return _(this, '-').coef_drag * _(this, '-').speed * _(this, '-').speed;
+        return _(this, '-').coef_drag * _(this, '#').speed * _(this, '#').speed;
     };
     var _getFrictionalForce = function(){
-        return _(this, '-').coef_friction * _(this, '-').speed;
+        return _(this, '-').coef_friction * _(this, '#').speed;
     };
     var _getMaxSpeed = function(){
         //v = (sqrt(4*f*t+r^2)-r)/(2*t)
@@ -193,43 +194,43 @@ X.Car = function () {
     var _accelerate = function(){
         if(_(this, '-').state === 0 || _(this, '-').state === 2)
             _(this, '-').state = 1;
-//        _(this, '-').speed += _(this, '-').acceleration * X.Time.getDelta();
+//        _(this, '#').speed += _(this, '-').acceleration * X.Time.getDelta();
 
         _(this, '-').force += _(this, '-').power;
     };
     var _brake = function(){
         if(_(this, '-').state === 1)
             _(this, '-').state = 2;
-//        _(this, '-').speed -= _(this, '-').braking * X.Time.getDelta();
-        if(_(this, '-').speed > 0)
+//        _(this, '#').speed -= _(this, '-').braking * X.Time.getDelta();
+        if(_(this, '#').speed > 0)
             _(this, '-').force -= _(this, '-').braking;
     };
     var _turn = function(){
         if(X.Input.isPressed(_(this, '-').binds.turnRight)){
-            _(this, '-').direction += _(this, '-').directionMAX * X.Time.getDelta() * _(this, '-').directionSpeed;
-            if(_(this, '-').direction > _(this, '-').directionMAX) _(this, '-').direction = _(this, '-').directionMAX;
+            _(this, '#').direction += _(this, '#').directionMAX * X.Time.getDelta() * _(this, '#').directionSpeed;
+            if(_(this, '#').direction > _(this, '#').directionMAX) _(this, '#').direction = _(this, '#').directionMAX;
 
         }
         if(X.Input.isPressed(_(this, '-').binds.turnLeft)){
-            _(this, '-').direction -= _(this, '-').directionMAX * X.Time.getDelta() * _(this, '-').directionSpeed;
-            if(_(this, '-').direction < -_(this, '-').directionMAX) _(this, '-').direction = -_(this, '-').directionMAX;
+            _(this, '#').direction -= _(this, '#').directionMAX * X.Time.getDelta() * _(this, '#').directionSpeed;
+            if(_(this, '#').direction < -_(this, '#').directionMAX) _(this, '#').direction = -_(this, '#').directionMAX;
         }
     };
     var _releaseDirection = function(){
-        if(_(this, '-').direction > 1){
-            _(this, '-').direction -= _(this, '-').directionMAX * X.Time.getDelta() * _(this, '-').directionSpeed;
-            if(_(this, '-').direction <= 1) _(this, '-').direction = 0;
+        if(_(this, '#').direction > 1){
+            _(this, '#').direction -= _(this, '#').directionMAX * X.Time.getDelta() * _(this, '#').directionSpeed;
+            if(_(this, '#').direction <= 1) _(this, '#').direction = 0;
         }
-        else if(_(this, '-').direction < 1){
-            _(this, '-').direction += _(this, '-').directionMAX * X.Time.getDelta() * _(this, '-').directionSpeed;
-            if(_(this, '-').direction >= 1) _(this, '-').direction = 0;
+        else if(_(this, '#').direction < 1){
+            _(this, '#').direction += _(this, '#').directionMAX * X.Time.getDelta() * _(this, '#').directionSpeed;
+            if(_(this, '#').direction >= 1) _(this, '#').direction = 0;
         }
     };
     
     X_object.prototype = X.extend(X.Shape);
-    X_object.prototype.getDirection = function(){return _(this, '-').direction;};
-    X_object.prototype.getDirectionMAX = function(){return _(this, '-').directionMAX;};
-    X_object.prototype.getVitesse = function() {return _(this, '-').speed;};
+    X_object.prototype.getDirection = function(){return _(this, '#').direction;};
+    X_object.prototype.getDirectionMAX = function(){return _(this, '#').directionMAX;};
+    X_object.prototype.getVitesse = function() {return _(this, '#').speed;};
  
     return X.Car = X_object;
 };
