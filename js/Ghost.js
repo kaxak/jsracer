@@ -57,13 +57,14 @@ X.Ghost = function () {
         
         var actualPosition = _(this, '-').targetCar.position;
         var actualOrientation = _(this, '-').targetCar.orientation;
-        var actualDirection = _(this, '-').targetCar.direction;
-        var actualSpeed = _(this, '-').targetCar.speed;
+        //var actualDirection = _(this, '-').targetCar.direction;
+        //var actualSpeed = _(this, '-').targetCar.speed;
         
         var ghostFrame = { position : actualPosition, 
-                           orientation : actualOrientation, 
-                           direction : actualDirection,
-                           speed : actualSpeed};
+                           orientation : actualOrientation 
+                           //direction : actualDirection,
+                           //speed : actualSpeed
+                         };
                        
         _(this, '-').ghostTempInstance.push(ghostFrame);
     };
@@ -83,16 +84,16 @@ X.Ghost = function () {
         var ghost = JSON.parse(_(this, '-').ghostInstance);
         
         if(_(this, '-').playBackTick <= ghost.length - 1) {
-
-            this.position = ghost[_(this, '-').playBackTick].position;
-            this.orientation = ghost[_(this, '-').playBackTick].orientation;
-            this.direction = ghost[_(this, '-').playBackTick].direction;
-            this.speed = ghost[_(this, '-').playBackTick].speed;
+            
+            _(this, '+').position = ghost[_(this, '-').playBackTick].position;
+            _(this, '+').orientation = ghost[_(this, '-').playBackTick].orientation;
+            //this.direction = ghost[_(this, '-').playBackTick].direction;
+            //this.speed = ghost[_(this, '-').playBackTick].speed;
             
             _(this, '-').playBackTick++;
             
         } 
-        else this.position = _(this, '-').outOfBound;
+        else _(this, '+').position = _(this, '-').outOfBound;
     };
     
     X_object.prototype = X.extend(X.Car);

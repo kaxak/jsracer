@@ -46,8 +46,8 @@ X.TileMap = function () {
     };
     
     var getTileIndexAtPosition = function(position){
-        var ix = Math.floor(_(this, '-').lineLength / position.x);
-        var iy = Math.floor(_(this, '-').lineLength / position.y);
+        var ix = Math.floor(position.x / _(this, '-').map.tileSize);
+        var iy = Math.floor(position.y / _(this, '-').map.tileSize);
         return iy * _(this, '-').lineLength + ix;
     };
     
@@ -64,9 +64,10 @@ X.TileMap = function () {
     };
     
     X_object.prototype.getTypeAtPosition = function(position){
-        var tileIndex = _(this, '-').map.tileMap[getTileIndexAtPosition.call(this, position)];
+        var i = getTileIndexAtPosition.call(this, position);
+        var tileIndex = _(this, '-').map.tileMap[i];
         for(var key in _(this, '-').map.tileType){
-            if(tileIndex in _(this, '-').map.tileType[key]) return key;
+            if(_(this, '-').map.tileType[key].includes(tileIndex)) return key;
         }
     };
     

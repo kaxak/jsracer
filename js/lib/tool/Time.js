@@ -40,15 +40,9 @@ X.Time = new function() {
     };
     
     this.format = function(seconde) {
-        var milli = seconde * 1000;
-        var seconds = Math.floor((milli / 1000) % 60);
-        var minutes = Math.floor((milli / (60 * 1000)) % 60);
-
-        minutes = ('00'+minutes).slice(-2);
-        seconds = ('00'+seconds).slice(-2);
-        var dixiemeDeSec = ('0000'+milli).slice(-4);
-
-        return minutes + ":" + seconds + "." + dixiemeDeSec;
+        var minutes = Math.floor(seconde / 60);
+        var secondeSplit = ('00'+(seconde % 60)).split('.');
+        return ('00'+minutes).slice(-2) + ":" + secondeSplit[0].slice(-2) + '.' + secondeSplit[1].slice(0,4) ;
     };
     
     

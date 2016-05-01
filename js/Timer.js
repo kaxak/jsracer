@@ -26,7 +26,7 @@ X.Timer = function(milliseconds, isLoop){
         var current = now - _lastExec;
         if(current >= _step){
             _lastExec = now - current + _step;
-            if(_isLoop === false) _state._enum_state.stopped;
+            if(_isLoop === false) _state = _enum_state.stopped;
             return true;
         }
         return false;
@@ -47,5 +47,9 @@ X.Timer = function(milliseconds, isLoop){
     
     this.stop = function(){
         _state = _enum_state.stopped;
+    };
+    
+    this.isRunning = function(){
+        return _state === _enum_state.running;
     };
 };
