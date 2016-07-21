@@ -17,6 +17,8 @@ include('js/Vector.js');
 include('js/TileMap.js');
 include('js/Chrono.js');
 
+//include('js/GUIfunc.js');
+
 include('js/lib/tool/Screen.js');
 include('js/lib/ext/sat/SAT.js');
 
@@ -74,7 +76,22 @@ X.Scene = function () {
         chrono.addEventListener('EndLap', ghost.onChronoEndLap, ghost);
         chrono.addEventListener('FirstLap', ghost.onStart, ghost);
         
-        X.GUI.ghostManagerGui.import.HTMLElement.onclick = ghost.import;
+        X.GUI.ghostManagerGui.import.HTMLElement.onclick = function(e){
+            //console.log('import');
+            if(!X.GUI.ghostManagerGui.file.HTMLElement.files || X.GUI.ghostManagerGui.file.HTMLElement.files.length == 0){
+                return;
+            }
+            //console.log('import->go');
+            var reader = new FileReader();
+            reader.readAsText(X.GUI.ghostManagerGui.file.HTMLElement.files[0]);
+            reader.onloadend = function(e){
+                var data = JSON.parse( e.target.result);
+                //console.log(data);
+                ghost.setBestRecord(data.record);
+                chrono.setBestLap(data.lapTime);
+                X.GUI.ghostManagerGui.toggle();
+            };
+        };
     };
     
     X_object.prototype = X.extend(X.Node);

@@ -18,7 +18,7 @@ Todo :
 
 */
 
-/* global include, X, Howl */
+/* global include, X, Howl, Blob, URL */
 
 include('js/Node.js');
 include('js/Shape.js');
@@ -137,9 +137,14 @@ X.Ghost = function () {
     };
     
     var _prepareToExport = function(){
-        var file = new Blob([JSON.stringify(_(this, '-').records.best)], {type: 'application/json'});
+        var data = {
+            lapTime: X.Chrono.BestLap,
+            record:_(this, '-').records.best
+        };
+        var file = new Blob([JSON.stringify(data)], {type: 'application/json'});
+        
         X.GUI.ghostManagerGui.export.HTMLElement.href = URL.createObjectURL(file);
-        X.GUI.ghostManagerGui.export.HTMLElement.download = 'JSracer_ghost.json';
+        X.GUI.ghostManagerGui.export.HTMLElement.download = 'JSracer_ghost_'+ Date.now()+'.json';
     };
     
     X_object.prototype = X.extend(X.Car);
@@ -148,17 +153,20 @@ X.Ghost = function () {
         //console.log('onStart');
         _(this, '-').timer.start();
         _(this, '-').startLapTime = X.Time.getLastTime();
+        _(this, '#').opacity = 0.3;
+        _(this, '-').lastPlayIndex = 0;
     };
     
     
     X_object.prototype.onChronoBestLap = function() {
         //console.log('onChronoBestLap');
+        //console.log(_(this, '-').records.current.length)
         _setBestRecord.call(this);
         _prepareToExport.call(this);
     };
     
     X_object.prototype.onChronoEndLap = function() {
-        console.log('onChronoEndLap');
+        //console.log('onChronoEndLap');
         _resetCurrentRecord.call(this);
         _(this, '-').timer.reset();
         _(this, '-').startLapTime = X.Time.getLastTime();
@@ -166,10 +174,12 @@ X.Ghost = function () {
         _(this, '-').lastPlayIndex = 0;
     };
     
-    X_object.prototype.import = function(e) {
-        console.log('test');
-    }
-    
+     X_object.prototype.setBestRecord = function(record) {
+         record.forEach(function(e, i, a){
+             e.position = new X.Vector(e.position.x, e.position.y);
+         });
+         _(this, '-').records.best = record;
+    };
  
     return X.Ghost = X_object;
 };

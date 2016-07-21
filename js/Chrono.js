@@ -111,8 +111,6 @@ X.Chrono = function () {
         var formatedTime = X.Time.format(time);
         X.GUI.lastTime.setText('Dernier temps<br />' + formatedTime);
         if(_(this, '-').bestTime === null || _(this, '-').bestTime > time){
-            sendEvents.call(this, 'BestLap');
-
             X.GUI.bestTime.setText('Meilleur temps<br />' + formatedTime);
             X.GUI.hint.setText(
                     'currentRecord battu : +'+formatedTime,
@@ -120,6 +118,9 @@ X.Chrono = function () {
             );
             X.GUI.hint.show(2000);
             _(this, '-').bestTime = time;
+            Chrono.BestLap = time;
+            
+            sendEvents.call(this, 'BestLap');
         }
             
     };
@@ -146,9 +147,7 @@ X.Chrono = function () {
     };
     
     var sendEvents = function(eventType){
-        // console.log(_(this, '-').listeners[eventType])
         _(this, '-').listeners[eventType].forEach(function(e, i, a){
-            //e();
             e.callback.call(e.object);
         });
         
@@ -187,9 +186,16 @@ X.Chrono = function () {
         else{
             throw new Error('X.Chrono.addEventListener: eventType : '+eventType+' not found!');
         }
-        
     };
     
+    Chrono.prototype.setBestLap = function(time){
+        var formatedTime = X.Time.format(time);
+        _(this, '-').bestTime = time;
+        X.GUI.bestTime.setText('Meilleur temps<br />' + formatedTime);
+        Chrono.BestLap = time;
+    };
+    
+    Chrono.BestLap = 0;
     
     return X.Chrono = Chrono;
 };
