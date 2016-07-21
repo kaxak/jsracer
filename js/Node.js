@@ -149,9 +149,9 @@ X.Node = function () {
         return _(this, '+').orientation;
     };
     Node.prototype.setOrientation = function(orientation){
-        if(orientation > Math.PI2 || orientation < 0){
+        /*if(orientation > Math.PI2 || orientation < 0){
             orientation -= Math.floor(orientation/Math.PI2) * Math.PI2;
-        }
+        }*/
         if(!isNaN(orientation))
             _(this, '+').orientation = orientation;
     };

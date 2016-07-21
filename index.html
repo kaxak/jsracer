@@ -50,16 +50,74 @@
             top:0;
             left: 0;
             right: 0;
-            text-align: center;
-            
+            text-align: center;    
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
             vertical-align: top;
         }
-        #game #GUI div{
+        #game #GUI .top-element{
             width: 200px;
             display: inline-block;
             height: 40px;
             vertical-align: top;
         }
+        #game #GUI .top-element-button{
+            background-color: black;
+            width: 200px;
+            display: block;
+            height: 40px;
+            line-height: 40px;
+        }
+        #game #GUI .top-element-button:hover{
+            cursor: pointer;
+            background-color: white;
+            color: black;
+        }
+        
+        #game #ghost-manager-gui{
+            
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0,0,0,0.8);
+            text-align: center;
+            font: 32px Verdana;
+        }
+        #game #ghost-manager-gui #ghost-manager-gui-file-label{
+            display: block;
+        }
+        #game #ghost-manager-gui #ghost-manager-gui-file{
+            opacity: 0;
+            width: 0;
+            display: none;
+        }
+        #game #ghost-manager-gui #ghost-manager-gui-drop-zone{
+            border: 4px dashed #bbb;
+            border-radius: 5px;
+            padding: 50px 25px;
+            text-align: center;
+            font: 20pt bold 'Vollkorn';
+            color: #bbb;
+            margin: 20px;
+        }
+        #game #ghost-manager-gui .big-button{
+            display: block;
+            margin: 40px 4px;
+            background-color: black;
+            color: white;
+            padding: 40px;
+        }
+        #game #ghost-manager-gui .big-button:hover{
+            background-color: white;
+            color: black;
+            cursor: pointer;
+        }
+        
         #game #hint{
             position: absolute;
             top:46%;
@@ -68,7 +126,7 @@
             text-align: center;
             font: 32px Verdana;
             text-decoration: blink;
-            background-color: rgba(0,0,0,0.3);
+            visibility: hidden;
         }
     </style>
     <script type="text/javascript" src="js/lib/ext/ScriptManager.js"></script>
@@ -80,14 +138,25 @@
             Sorry but your browser is not compatible with the game! :(
         </canvas>
         <div id="GUI">
-            <div id="chrono">Chronomètre<br /></div>
-            <div id="bestlap">Meilleur temps<br /></div>
-            <div id="currentlap">Dernier temps<br /></div>
-            <div id="speed"></div>
+            <div id="chrono" class="top-element">Chronomètre<br /></div>
+            <div id="bestlap" class="top-element">Meilleur temps<br /></div>
+            <div id="currentlap" class="top-element">Dernier temps<br /></div>
+            <div id="speed" class="top-element"></div>
+            <div id="ghost-manager" class="top-element"><div id="ghost-manager-button" class="top-element-button">Ghost Manager</div></div>
             <!--div>Aide</div-->
         </div>
+        <div id="ghost-manager-gui" style="display: none;">
+            <h1>Ghost Manager</h1>
+            
+            <label id="ghost-manager-gui-file-label" for="ghost-manager-gui-file" class="big-button">Parcourir...</label>
+            <input id="ghost-manager-gui-file" type="file" />
+            <div id="ghost-manager-gui-drop-zone">Glisser-déposer votre fichier de ghost ici!</div>
+            <div id="ghost-manager-gui-import" class="big-button">Importer</div>
+            <a id="ghost-manager-gui-export" class="big-button">Exporter</a>
+            <div id="ghost-manager-gui-back" class="big-button">Retour</div>
+        </div>
         <div id="hint" class="blink">
-            Franchissez la line pour commencer
+            Franchissez la ligne pour commencer
         </div>
     </div>
 
@@ -114,6 +183,36 @@
             X.GUI.bestTime = new X.GUIElement('bestlap');
             X.GUI.lastTime = new X.GUIElement('currentlap');
             X.GUI.speed = new X.GUIElement('speed');
+            X.GUI.ghostManager = new X.GUIElement('ghost-manager');
+            X.GUI.ghostManagerGui = new X.GUIElement('ghost-manager-gui');
+            X.GUI.ghostManagerGui.file = new X.GUIElement('ghost-manager-gui-file');
+            X.GUI.ghostManagerGui.fileLabel = new X.GUIElement('ghost-manager-gui-file-label');
+            X.GUI.ghostManagerGui.dropZone = new X.GUIElement('ghost-manager-gui-drop-zone');
+            X.GUI.ghostManagerGui.import = new X.GUIElement('ghost-manager-gui-import');
+            X.GUI.ghostManagerGui.export = new X.GUIElement('ghost-manager-gui-export');
+            X.GUI.ghostManagerGui.back = new X.GUIElement('ghost-manager-gui-back');
+            
+            
+            X.GUI.ghostManager.HTMLElement.onclick = function(e){
+                X.GUI.ghostManagerGui.toggle();
+            }
+            X.GUI.ghostManagerGui.back.HTMLElement.onclick = function(e){
+                X.GUI.ghostManagerGui.toggle();
+            }
+            X.GUI.ghostManagerGui.export.HTMLElement.onclick = function(e){
+                if(X.GUI.ghostManagerGui.export.HTMLElement.href){
+                    
+                }
+                else{
+                    alert('Il n\'y a auncun ghost!');
+                }
+            }
+            X.GUI.ghostManagerGui.file.HTMLElement.onchange = function(e){
+                var fileName = X.GUI.ghostManagerGui.file.HTMLElement.value;
+                fileName = fileName.substring(fileName.lastIndexOf('\\')+1);
+                X.GUI.ghostManagerGui.fileLabel.setText(fileName);
+            }
+                        
             //* Lancement du jeu
             X.Game('canvas', 'GUI');
 

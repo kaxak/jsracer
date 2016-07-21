@@ -105,14 +105,14 @@ X.Car = function () {
             keyboard:['space']
         };
         
-        _(this, '-').sounds ={};
-        _(this, '-').sounds.engine = new Howl({
+        _(this, '#').sounds ={};
+        _(this, '#').sounds.engine = new Howl({
             loop: true,
             rate: 0.28,
             volume: 0.20,
-            urls: ['./assets/Sounds/car-engine-loop.wav']
+            urls: ['./assets/sounds/car-engine-loop.wav']
         });
-        _(this, '-').sounds.engine.play();
+        _(this, '#').sounds.engine.play();
         
         /* Les Roues */
         //* Roues Avants
@@ -281,7 +281,7 @@ X.Car = function () {
                 _(this, '+').position = _(this, '+').position.Add(direction.Multiply(_(this, '-').speed * X.Time.getDelta()));
             }
             
-            _(this, '-').sounds.engine.rate(Math.max(_(this, '-').speed/_getMaxSpeed.call(this)*1.6, 0.28));
+            _(this, '#').sounds.engine.rate(Math.max(_(this, '-').speed/_getMaxSpeed.call(this)*1.6, 0.28));
             
             //* gestion sorti d'écran
             if(this.position.x > X.Screen.width) this.position.x -= X.Screen.width;
@@ -351,8 +351,8 @@ X.Car = function () {
     X_object.prototype.getDirectionMAX = function(){return _(this, '-').directionMAX;};
     X_object.prototype.getVitesse = function() {return _(this, '-').speed;};
     X_object.prototype.getState = function() {return _(this, '-').state;};
-    X_object.prototype.soundsPlay = function() { _(this, '-').sounds.engine.play(); };
-    X_object.prototype.soundsStop = function() { _(this, '-').sounds.engine.stop(); };
+    X_object.prototype.soundsPlay = function() { _(this, '#').sounds.engine.play(); };
+    X_object.prototype.soundsStop = function() { _(this, '#').sounds.engine.stop(); };
  
     return X.Car = X_object;
 };

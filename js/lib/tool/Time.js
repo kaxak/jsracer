@@ -42,7 +42,9 @@ X.Time = new function() {
     this.format = function(seconde) {
         var minutes = Math.floor(seconde / 60);
         var secondeSplit = ('00'+(seconde % 60)).split('.');
-        return ('00'+minutes).slice(-2) + ":" + secondeSplit[0].slice(-2) + '.' + secondeSplit[1].slice(0,4) ;
+        return  ('00'+minutes).slice(-2) + ":" + 
+                secondeSplit[0].slice(-2) + '.' + 
+                ((secondeSplit.length >= 2)?secondeSplit[1].slice(0,4):'0000');
     };
     
     

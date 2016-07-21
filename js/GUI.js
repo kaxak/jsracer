@@ -24,5 +24,12 @@ X.GUIElement.prototype.setText = function(text, color){
     else{ this.HTMLElement.style.color = 'white'; }
     this.HTMLElement.innerHTML = text;
 };
+X.GUIElement.prototype.toggle = function(){
+    if(this.HTMLElement.style.display === 'none')
+        this.HTMLElement.style.display = 'block';
+    else{
+        this.HTMLElement.style.display = 'none';
+    }
+};
 
 X.GUI = {};

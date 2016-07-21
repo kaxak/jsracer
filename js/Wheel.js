@@ -39,6 +39,8 @@ X.Wheel = function () {
             else {
                 this.playLoop('idle',  1);
             }
+            
+            _(this, '#').opacity = this.getParent().getOpacity();
         };
     };
     

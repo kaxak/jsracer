@@ -8,6 +8,7 @@ Description :
 /* global include, X */
 include('js/SceneManager.js');
 include('js/GUI.js');
+//include('js/GUIfunc.js');
 include('js/lib/tool/Time.js');
 include('js/lib/tool/Screen.js');
 

@@ -4,7 +4,7 @@ Authors : ROCHE Emmanuel
 Description : prototype d'un acteur simple ayant une texture
 */
 
-/* global include, X */
+/* global include, X, Image */
 
 include('js/Node.js');
 include('js/Vector.js');

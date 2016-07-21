@@ -35,10 +35,13 @@ X.Chrono = function () {
         _(this, '-').timerGui.start();
         _(this, '-').isHintHidden = false;
         
+        _(this, '-').nbLap = 0;
+        
         
         _(this, '-').listeners = {
                 EndLap:[],
-                BestLap:[]
+                BestLap:[],
+                FirstLap:[]
         };
         
         this.onUpdate = function(){
@@ -61,6 +64,11 @@ X.Chrono = function () {
                                 sendEvents.call(this, 'EndLap');
                             }
                             chronoStart.call(this);
+                            _(this, '-').nbLap++;
+                            if(_(this, '-').nbLap === 1) {
+                               sendEvents.call(this, 'FirstLap');
+                            }
+                            
                         }
                         else{
                             
@@ -107,7 +115,7 @@ X.Chrono = function () {
 
             X.GUI.bestTime.setText('Meilleur temps<br />' + formatedTime);
             X.GUI.hint.setText(
-                    'Record battu : +'+formatedTime,
+                    'currentRecord battu : +'+formatedTime,
                     'rgb(0,220,0)'
             );
             X.GUI.hint.show(2000);
